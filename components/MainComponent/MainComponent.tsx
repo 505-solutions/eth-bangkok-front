@@ -350,7 +350,7 @@ export function MainComponent() {
 
   return (
     <div>
-      <Center>
+      <Center mt={20} mb={20}>
         <DynamicWidget />
         <Notifications />
       </Center>
@@ -716,7 +716,7 @@ scipy==1.10.0`}
               <Title order={3}>Rewards</Title>
               <p>
                 We use <b>Flare data connector (FDC)</b> to bring the quality of data and number of
-                contributions on <b>Songbird testnet coston.</b> Model trainer reward is 0.2 CFLR
+                contributions on chain and <b>Flare time series oracle (FTSO)</b> for price feeds. Model trainer reward is 0.2 CFLR
               </p>
               <Center style={{ flexDirection: 'column' }}>
                 <Table style={{ width: 'max-content' }}>
