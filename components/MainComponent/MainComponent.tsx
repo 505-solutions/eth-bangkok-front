@@ -1,73 +1,244 @@
-import { Button, Center, Code, Card, Text, JsonInput, Group, FileButton, Space, Table, Avatar, ThemeIcon, Badge, Image, Title } from '@mantine/core';
+import { useRef, useState } from 'react';
+import {
+  DynamicContextProvider,
+  DynamicWidget,
+  useDynamicContext,
+} from '@dynamic-labs/sdk-react-core';
+import {
+  IconBoxModel,
+  IconBrandGoogle,
+  IconBrandPython,
+  IconCancel,
+  IconChartArrows,
+  IconContract,
+  IconCrossFilled,
+  IconDatabase,
+  IconFileTypeDoc,
+  IconGitCompare,
+  IconLoadBalancer,
+  IconMap,
+  IconMoneybag,
+  IconShield,
+  IconSignLeftFilled,
+  IconUser,
+} from '@tabler/icons-react';
+import axios from 'axios';
+import { ethers } from 'ethers';
 // import { Prism } from '@mantine/prism';
+
 import { Tabs, rem } from '@mantine/core';
 import { IconBoxModel, IconChartArrows, IconLoadBalancer, IconBrandGoogle, IconShield, IconMap, IconMoneybag, IconDatabase, IconBrandPython, IconGitCompare, IconUser, IconCrossFilled, IconCancel, IconFileTypeDoc, IconSignLeftFilled, IconContract, IconSignature } from '@tabler/icons-react';
-import {
-    DynamicContextProvider,
-    DynamicWidget,
-    useDynamicContext,
-  } from '@dynamic-labs/sdk-react-core';
-import { showNotification } from '@mantine/notifications';
-import { useRef, useState } from 'react';
-import axios from 'axios';
 
+import {
+  Avatar,
+  Badge,
+  Button,
+  Card,
+  Center,
+  Code,
+  FileButton,
+  Group,
+  Image,
+  JsonInput,
+  rem,
+  Space,
+  Table,
+  Tabs,
+  Text,
+  ThemeIcon,
+  Title,
+} from '@mantine/core';
+import { showNotification } from '@mantine/notifications';
 import flareValidationAbi from '@/contracts/flareValidation.json';
 
 export function MainComponent() {
-    const iconStyle = { width: rem(24), height: rem(24) };
-    const { primaryWallet } = useDynamicContext();
+  const iconStyle = { width: rem(24), height: rem(24) };
+  const { primaryWallet } = useDynamicContext();
 
-    const [quote, setQuote] = useState(null);
+  const [quote, setQuote] = useState(null);
 
-    const [file1, setFile1] = useState<File | null>(null);
-    const [file2, setFile2] = useState<File | null>(null);
-    const resetRef1 = useRef<() => void>(null);
-    const resetRef2 = useRef<() => void>(null);
+  const [file1, setFile1] = useState<File | null>(null);
+  const [file2, setFile2] = useState<File | null>(null);
+  const resetRef1 = useRef<() => void>(null);
+  const resetRef2 = useRef<() => void>(null);
 
-    const clearFile1 = () => {
-        setFile1(null);
-        resetRef1.current?.();
-    };
-    const clearFile2 = () => {
-        setFile2(null);
-        resetRef2.current?.();
-    };
+  const clearFile1 = () => {
+    setFile1(null);
+    resetRef1.current?.();
+  };
+  const clearFile2 = () => {
+    setFile2(null);
+    resetRef2.current?.();
+  };
 
-    const users = [
-        { id: 1, wallet: '0x123...abc', variance: '0.02', contributions: 12, finalReward: 0.1 },
-        { id: 2, wallet: '0x456...def', variance: '0.02', contributions: 12, finalReward: 0.1 },
-        { id: 3, wallet: '0x789...ghi', variance: '0.02', contributions: 12, finalReward: 0.1 },
+  const users = [
+    { id: 1, wallet: '0x123...abc', variance: '0.02', contributions: 12, finalReward: 0.1 },
+    { id: 2, wallet: '0x456...def', variance: '0.02', contributions: 12, finalReward: 0.1 },
+    { id: 3, wallet: '0x789...ghi', variance: '0.02', contributions: 12, finalReward: 0.1 },
+  ];
+
+  const handleDownload = async (fileUrl, fileName) => {
+    try {
+      // Fetch the file as a Blob
+      const response = await fetch(fileUrl);
+      if (!response.ok) {
+        throw new Error(`Failed to fetch file: ${response.statusText}`);
+      }
+      const blob = await response.blob();
+
+      // Create a temporary link to trigger the download
+      const link = document.createElement('a');
+      link.href = window.URL.createObjectURL(blob);
+      link.download = fileName;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (error) {
+      console.error('Error downloading the file:', error);
+    }
+  };
+
+  // * ================================================================
+  const handleTeeVerification = async () => {
+    try {
+      const response = await axios.get('/api/verifyPol');
+      console.log('Verification result:', response.data.tdxQuote.quote);
+      setQuote(response.data.tdxQuote.quote);
+    } catch (error) {
+      console.error('Error verifying in TEE', error);
+    }
+  };
+
+  // * ================================================================
+  const flareValidationAddress = '0x13ae453B11c4a3D86fcBaeE0C084DE57A6919C30';
+  const [isLoadingTdxQuote, setIsLoadingTdxQuote] = useState(false);
+  const aggregateTDXQuote = async () => {
+    try {
+      setIsLoadingTdxQuote(true);
+
+      const signer = await primaryWallet?.connector.ethers?.getSigner();
+
+      if (!signer) {
+        alert('Please connect your wallet');
+        return null;
+      }
+
+      const contract = new ethers.Contract(flareValidationAddress, flareValidationAbi, signer);
+
+      console.log('Contract:', flareValidationAbi);
+
+      // ethers.utils.hexZeroPad('0x', 32)
+      const tx = await contract.verifyTeeLearning(
+        '0x00',
+        [
+          '0x00000000000000000000000000000000000000000000000000006730d6800022',
+          '0x00000000000000000000000000000000000000000000000000980d1615541c18',
+          true,
+        ],
+        {
+          gasLimit: 2000000,
+        }
+      );
+
+      // Wait for transaction to be mined
+      const receipt = await tx.wait();
+      console.log('Transaction confirmed:', receipt.transactionHash);
+
+      //   const response = await axios.get('/api/verifyPol');
+      //   console.log('Verification result:', response.data.tdxQuote.quote);
+    } catch (error) {
+      console.error('Error verifying in TEE', error);
+    } finally {
+      setIsLoadingTdxQuote(false);
+    }
+  };
+
+  // * ================================================================
+  const [isLoadingfetchDBInfo, setIsLoadingfetchDBInfo] = useState(false);
+  const getFlareDBInfo = async () => {
+    try {
+      setIsLoadingfetchDBInfo(true);
+
+      const signer = await primaryWallet?.connector.ethers?.getSigner();
+      if (!signer) {
+        alert('Please connect your wallet');
+        return null;
+      }
+      const contract = new ethers.Contract(flareValidationAddress, flareValidationAbi, signer);
+
+      // Make a request to the Flare Verifier Server
+      const jsonBody = {
+        attestationType: '0x44617461736574496e666f417069000000000000000000000000000000000000',
+        sourceId: '0x5745423200000000000000000000000000000000000000000000000000000000',
+        messageIntegrityCode: '0x0000000000000000000000000000000000000000000000000000000000000000',
+        requestBody: {
+          url: 'https://api.freeapi.app/api/v1/public/randomusers/user/random',
+          abi_signature: '',
+        },
+      };
+
+      const response = await axios.post(
+        'http://localhost:8000/IDatasetInfoApi/prepareResponse',
+        jsonBody,
+        {
+          headers: {
+            'X-Api-Key': '12345',
+            'Content-Type': 'application/json',
+          },
+        }
+
+      );
+      if (response.data.status !== 'VALID') {
+        alert('failed to get response from the verifier server');
+        return null;
+      }
+
+      console.log('Response:', response.data.response);
+
+      // ethers.utils.hexZeroPad('0x', 32)
+      const tx = await contract.addDatabaseInfo(response.data.response, {
+        gasLimit: 2000000,
+      });
+
+      // Wait for transaction to be mined
+      const receipt = await tx.wait();
+      console.log('Transaction confirmed:', receipt.transactionHash);
+
+      await getActiveBalances();
+    } catch (error) {
+      console.error('Error verifying in TEE', error);
+    } finally {
+      setIsLoadingfetchDBInfo(false);
+    }
+  };
+
+  // * ================================================================
+  const [addressPayouts, setAddressPayouts] = useState();
+  const getActiveBalances = async () => {
+    const signer = await primaryWallet?.connector.ethers?.getSigner();
+    if (!signer) {
+      alert('Please connect your wallet');
+      return null;
+    }
+    const contract = new ethers.Contract(flareValidationAddress, flareValidationAbi, signer);
+
+    const addresses = [
+      '0x8A448f9d67F70a3a9C78A3ef0BA204B3c43521a9',
+      '0x5a7338D940330109A2722140B7790fC4e286E54C',
+      '0x9c4007243CfbF63aFAD9Daf33D331f5a14c81267',
     ];
 
-    const handleDownload = async (fileUrl, fileName) => {
-        try {
-          // Fetch the file as a Blob
-          const response = await fetch(fileUrl);
-          if (!response.ok) {
-            throw new Error(`Failed to fetch file: ${response.statusText}`);
-          }
-          const blob = await response.blob();
+    const payouts = {};
+    for (const address of addresses) {
+      const pendingPayout = await contract.pendingPayouts(address);
+      payouts[address] = pendingPayout;
+    }
 
-          // Create a temporary link to trigger the download
-          const link = document.createElement('a');
-          link.href = window.URL.createObjectURL(blob);
-          link.download = fileName;
-          document.body.appendChild(link);
-          link.click();
-          document.body.removeChild(link);
-        } catch (error) {
-          console.error('Error downloading the file:', error);
-        }
-    };
+    console.log('addressPayouts:', payouts);
 
-    const handleTeeVerification = async () => {
-        try {
-            const response = await axios.get('/api/verifyPol');
-            console.log('Verification result:', response.data.tdxQuote.quote);
-            setQuote(response.data.tdxQuote.quote);
-        } catch (error) {
-          console.error('Error verifying in TEE', error);
-        }
+    setAddressPayouts(payouts);
+  };
+
     };
 
     return (
@@ -411,4 +582,5 @@ scipy==1.10.0`}
         </Center>
         </div>
     );
+
 }

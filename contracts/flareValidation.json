@@ -1,184 +1,217 @@
 [
     {
+        "type": "constructor",
         "inputs": [],
-        "stateMutability": "nonpayable",
-        "type": "constructor"
+        "stateMutability": "nonpayable"
     },
     {
-        "inputs": [],
-        "name": "AttestationAllreadyProcessed",
-        "type": "error"
-    },
-    {
+        "type": "function",
+        "name": "addDatabaseInfo",
         "inputs": [
             {
+                "name": "dbInfoResponse",
+                "type": "tuple",
+                "internalType": "struct IDatasetInfoApi.Response",
                 "components": [
                     {
-                        "internalType": "bytes32",
                         "name": "attestationType",
-                        "type": "bytes32"
+                        "type": "bytes32",
+                        "internalType": "bytes32"
                     },
                     {
-                        "internalType": "bytes32",
                         "name": "sourceId",
-                        "type": "bytes32"
+                        "type": "bytes32",
+                        "internalType": "bytes32"
                     },
                     {
-                        "internalType": "uint64",
                         "name": "votingRound",
-                        "type": "uint64"
+                        "type": "uint64",
+                        "internalType": "uint64"
                     },
                     {
-                        "internalType": "uint64",
                         "name": "lowestUsedTimestamp",
-                        "type": "uint64"
+                        "type": "uint64",
+                        "internalType": "uint64"
                     },
                     {
+                        "name": "requestBody",
+                        "type": "tuple",
+                        "internalType": "struct IDatasetInfoApi.RequestBody",
                         "components": [
                             {
-                                "internalType": "string",
                                 "name": "url",
-                                "type": "string"
+                                "type": "string",
+                                "internalType": "string"
                             },
                             {
-                                "internalType": "string",
                                 "name": "abi_signature",
-                                "type": "string"
+                                "type": "string",
+                                "internalType": "string"
                             }
-                        ],
-                        "internalType": "struct IDatasetInfoApi.RequestBody",
-                        "name": "requestBody",
-                        "type": "tuple"
+                        ]
                     },
                     {
+                        "name": "responseBody",
+                        "type": "tuple",
+                        "internalType": "struct IDatasetInfoApi.ResponseBody",
                         "components": [
                             {
-                                "internalType": "bytes",
                                 "name": "abi_encoded_data",
-                                "type": "bytes"
+                                "type": "bytes",
+                                "internalType": "bytes"
                             }
-                        ],
-                        "internalType": "struct IDatasetInfoApi.ResponseBody",
-                        "name": "responseBody",
-                        "type": "tuple"
+                        ]
                     }
-                ],
-                "internalType": "struct IDatasetInfoApi.Response",
-                "name": "dbInfoResponse",
-                "type": "tuple"
+                ]
             }
         ],
-        "name": "addDatabaseInfo",
         "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
+        "stateMutability": "nonpayable"
     },
     {
+        "type": "function",
+        "name": "flrUsdId",
         "inputs": [],
-        "name": "dbApiAttestationVerification",
         "outputs": [
             {
-                "internalType": "contract IDatasetInfoApiVerification",
                 "name": "",
-                "type": "address"
+                "type": "bytes21",
+                "internalType": "bytes21"
             }
         ],
-        "stateMutability": "view",
-        "type": "function"
+        "stateMutability": "view"
     },
     {
-        "inputs": [
+        "type": "function",
+        "name": "getFlrUsdPrice",
+        "inputs": [],
+        "outputs": [
             {
-                "internalType": "address payable",
-                "name": "contributor",
-                "type": "address"
+                "name": "",
+                "type": "uint256",
+                "internalType": "uint256"
+            },
+            {
+                "name": "",
+                "type": "int8",
+                "internalType": "int8"
+            },
+            {
+                "name": "",
+                "type": "uint64",
+                "internalType": "uint64"
             }
         ],
+        "stateMutability": "view"
+    },
+    {
+        "type": "function",
         "name": "payout",
+        "inputs": [
+            {
+                "name": "contributor",
+                "type": "address",
+                "internalType": "address payable"
+            }
+        ],
         "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
+        "stateMutability": "nonpayable"
     },
     {
-        "inputs": [
-            {
-                "internalType": "address",
-                "name": "",
-                "type": "address"
-            }
-        ],
+        "type": "function",
         "name": "pendingPayouts",
-        "outputs": [
-            {
-                "internalType": "uint256",
-                "name": "",
-                "type": "uint256"
-            }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
         "inputs": [
             {
-                "internalType": "bytes32",
                 "name": "",
-                "type": "bytes32"
+                "type": "address",
+                "internalType": "address"
             }
         ],
+        "outputs": [
+            {
+                "name": "",
+                "type": "uint256",
+                "internalType": "uint256"
+            }
+        ],
+        "stateMutability": "view"
+    },
+    {
+        "type": "function",
         "name": "processedAttestations",
-        "outputs": [
-            {
-                "internalType": "bool",
-                "name": "",
-                "type": "bool"
-            }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
         "inputs": [
             {
-                "internalType": "bytes32",
                 "name": "",
-                "type": "bytes32"
+                "type": "bytes32",
+                "internalType": "bytes32"
             }
         ],
+        "outputs": [
+            {
+                "name": "",
+                "type": "bool",
+                "internalType": "bool"
+            }
+        ],
+        "stateMutability": "view"
+    },
+    {
+        "type": "function",
         "name": "verifiedContributions",
-        "outputs": [
-            {
-                "internalType": "address",
-                "name": "",
-                "type": "address"
-            }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
         "inputs": [
             {
+                "name": "",
+                "type": "bytes32",
+                "internalType": "bytes32"
+            }
+        ],
+        "outputs": [
+            {
+                "name": "",
+                "type": "bool",
+                "internalType": "bool"
+            }
+        ],
+        "stateMutability": "view"
+    },
+    {
+        "type": "function",
+        "name": "verifyTeeLearning",
+        "inputs": [
+            {
+                "name": "teeQuote",
+                "type": "bytes",
+                "internalType": "bytes"
+            },
+            {
+                "name": "teeHashInfo",
+                "type": "tuple",
+                "internalType": "struct FlareValidation.TeeHashInfo",
                 "components": [
                     {
-                        "internalType": "address",
-                        "name": "contributor",
-                        "type": "address"
+                        "name": "id",
+                        "type": "bytes32",
+                        "internalType": "bytes32"
                     },
                     {
-                        "internalType": "bytes32",
                         "name": "dataHash",
-                        "type": "bytes32"
+                        "type": "bytes32",
+                        "internalType": "bytes32"
+                    },
+                    {
+                        "name": "success",
+                        "type": "bool",
+                        "internalType": "bool"
                     }
-                ],
-                "internalType": "struct TeeHashInfo[]",
-                "name": "contributionHashInfo",
-                "type": "tuple[]"
+                ]
             }
         ],
-        "name": "verifyTeeLearning",
         "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
+        "stateMutability": "nonpayable"
+    },
+    {
+        "type": "error",
+        "name": "AttestationAllreadyProcessed",
+        "inputs": []
     }
 ]
