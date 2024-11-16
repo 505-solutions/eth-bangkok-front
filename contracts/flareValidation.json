@@ -1,0 +1,184 @@
+[
+    {
+        "inputs": [],
+        "stateMutability": "nonpayable",
+        "type": "constructor"
+    },
+    {
+        "inputs": [],
+        "name": "AttestationAllreadyProcessed",
+        "type": "error"
+    },
+    {
+        "inputs": [
+            {
+                "components": [
+                    {
+                        "internalType": "bytes32",
+                        "name": "attestationType",
+                        "type": "bytes32"
+                    },
+                    {
+                        "internalType": "bytes32",
+                        "name": "sourceId",
+                        "type": "bytes32"
+                    },
+                    {
+                        "internalType": "uint64",
+                        "name": "votingRound",
+                        "type": "uint64"
+                    },
+                    {
+                        "internalType": "uint64",
+                        "name": "lowestUsedTimestamp",
+                        "type": "uint64"
+                    },
+                    {
+                        "components": [
+                            {
+                                "internalType": "string",
+                                "name": "url",
+                                "type": "string"
+                            },
+                            {
+                                "internalType": "string",
+                                "name": "abi_signature",
+                                "type": "string"
+                            }
+                        ],
+                        "internalType": "struct IDatasetInfoApi.RequestBody",
+                        "name": "requestBody",
+                        "type": "tuple"
+                    },
+                    {
+                        "components": [
+                            {
+                                "internalType": "bytes",
+                                "name": "abi_encoded_data",
+                                "type": "bytes"
+                            }
+                        ],
+                        "internalType": "struct IDatasetInfoApi.ResponseBody",
+                        "name": "responseBody",
+                        "type": "tuple"
+                    }
+                ],
+                "internalType": "struct IDatasetInfoApi.Response",
+                "name": "dbInfoResponse",
+                "type": "tuple"
+            }
+        ],
+        "name": "addDatabaseInfo",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "dbApiAttestationVerification",
+        "outputs": [
+            {
+                "internalType": "contract IDatasetInfoApiVerification",
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address payable",
+                "name": "contributor",
+                "type": "address"
+            }
+        ],
+        "name": "payout",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "name": "pendingPayouts",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "bytes32",
+                "name": "",
+                "type": "bytes32"
+            }
+        ],
+        "name": "processedAttestations",
+        "outputs": [
+            {
+                "internalType": "bool",
+                "name": "",
+                "type": "bool"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "bytes32",
+                "name": "",
+                "type": "bytes32"
+            }
+        ],
+        "name": "verifiedContributions",
+        "outputs": [
+            {
+                "internalType": "address",
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "components": [
+                    {
+                        "internalType": "address",
+                        "name": "contributor",
+                        "type": "address"
+                    },
+                    {
+                        "internalType": "bytes32",
+                        "name": "dataHash",
+                        "type": "bytes32"
+                    }
+                ],
+                "internalType": "struct TeeHashInfo[]",
+                "name": "contributionHashInfo",
+                "type": "tuple[]"
+            }
+        ],
+        "name": "verifyTeeLearning",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    }
+]

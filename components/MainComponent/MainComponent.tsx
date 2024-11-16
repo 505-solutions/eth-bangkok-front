@@ -1,4 +1,4 @@
-import { Button, Center, Code, Card, Text, JsonInput, Group, FileButton, Space, Table, Avatar } from '@mantine/core';
+import { Button, Center, Code, Card, Text, JsonInput, Group, FileButton, Space, Table, Avatar, ThemeIcon, Badge, Image } from '@mantine/core';
 // import { Prism } from '@mantine/prism';
 import { Tabs, rem } from '@mantine/core';
 import { IconBoxModel, IconChartArrows, IconLoadBalancer, IconBrandGoogle, IconShield, IconMap, IconMoneybag, IconDatabase, IconBrandPython, IconGitCompare, IconUser } from '@tabler/icons-react';
@@ -11,6 +11,7 @@ import { showNotification } from '@mantine/notifications';
 import { useRef, useState } from 'react';
 import axios from 'axios';
 
+import flareValidationAbi from '@/contracts/flareValidation.json';
 
 export function MainComponent() {
     const iconStyle = { width: rem(24), height: rem(24) };
@@ -67,7 +68,7 @@ export function MainComponent() {
         } catch (error) {
           console.error('Error verifying in TEE', error);
         }
-    }
+    };
 
     return (
         <div>
@@ -95,26 +96,98 @@ export function MainComponent() {
                     Gallery tab content
                 </Tabs.Panel>
 
-                <Tabs.Panel value="train-model">
-                    <Button
-                      onClick={() => handleDownload(
-                        'https://raw.githubusercontent.com/cleverhans-lab/Proof-of-Learning/refs/heads/main/model.py',
-                        'model.py'
-                    )}
-                    >
-                        Download model
-                        <IconBrandPython style={{ marginLeft: '8px' }} />
-                    </Button>
+                <Tabs.Panel value="train-model" style={{display: 'flex'}}>
 
-                    <Button
-                      onClick={() => handleDownload(
-                            'https://raw.githubusercontent.com/cleverhans-lab/Proof-of-Learning/refs/heads/main/model.py',
-                            'model.py'
-                        )}
-                    >
-                        Download dataset
-                        <IconDatabase style={{ marginLeft: '8px' }} />
-                    </Button>
+                    <Card mt={20} mb={20} shadow="sm" padding="lg" radius="md" withBorder style={{ width: 'min-content' }}>
+                        <Card.Section>
+                            {/* <Image
+                              src="https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/images/bg-8.png"
+                              height={160}
+                              alt="Norway"
+                            /> */}
+                            <Center>
+                                <ThemeIcon
+                                  variant="gradient"
+                                // size="xl"
+                                  size={70}
+                                  aria-label="Gradient action icon"
+                                  gradient={{ from: 'blue', to: 'cyan', deg: 90 }}
+                                  mt={20}
+                                        >
+                                        <IconBrandPython size={60} />
+                                </ThemeIcon>
+                            </Center>
+                        </Card.Section>
+
+                        <Group justify="space-between" mt="md" mb="xs">
+                            <Text fw={500}>Download model</Text>
+                            <Badge color="pink">Python</Badge>
+                        </Group>
+
+                        <Text size="sm" c="dimmed" mb={20}>
+                            Download and run the model on your own machine, the training will generate Proof of Learning.
+                        </Text>
+
+                        <Code>model.py</Code>
+
+                        <Button
+                          onClick={() => handleDownload(
+                                'https://raw.githubusercontent.com/505-solutions/phala-tee-python/refs/heads/main/model.py',
+                                'model.py'
+                            )}
+                            >
+                                Download model
+                                <IconBrandPython style={{ marginLeft: '8px' }} />
+                        </Button>
+                    </Card>
+
+                    <Card ml={20} mt={20} mb={20} shadow="sm" padding="lg" radius="md" withBorder style={{ width: 'min-content' }}>
+                        <Card.Section>
+                            {/* <Image
+                              src="https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/images/bg-8.png"
+                              height={160}
+                              alt="Norway"
+                            /> */}
+                            <Center>
+                                <ThemeIcon
+                                  variant="gradient"
+                                // size="xl"
+                                  size={70}
+                                  aria-label="Gradient action icon"
+                                  gradient={{ from: 'blue', to: 'cyan', deg: 90 }}
+                                  mt={20}
+                                        >
+                                        <IconDatabase size={60} />
+                                </ThemeIcon>
+                            </Center>
+                        </Card.Section>
+
+                        <Group justify="space-between" mt="md" mb="xs">
+                            <Text fw={500}>Download dataset</Text>
+                            <Badge color="pink">Composite dataset</Badge>
+                        </Group>
+
+                        <Text size="sm" c="dimmed" mb={20}>
+                            Download the composite dataset made up of users contributions.
+                        </Text>
+
+                        <Code>cifar-10-composite.tar.gz</Code>
+
+                        <Button
+                          onClick={() => handleDownload(
+                                'https://raw.githubusercontent.com/505-solutions/phala-tee-python/refs/heads/main/model.py',
+                                'model.py'
+                            )}
+                            >
+                                Download dataset
+                                <IconDatabase style={{ marginLeft: '8px' }} />
+                        </Button>
+                    </Card>
+
+                    <Card mt={20} ml={20} mb={20} mr={20} shadow="sm" padding="lg" radius="md" withBorder>
+                        Train the model by running the following command in the shell:
+                        <Code>python model.py</Code>
+                    </Card>
                 </Tabs.Panel>
 
                 <Tabs.Panel value="verify-training">
