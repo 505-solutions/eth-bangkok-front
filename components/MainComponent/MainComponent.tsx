@@ -306,44 +306,82 @@ scipy==1.10.0`}
 
                 </Tabs.Panel>
 
-                <Tabs.Panel value="pay-rewards">
-                    <Button>Calculate dataset contribution awards</Button>
-                    <Center>
-                        <Table>
-                            <thead>
-                                <tr>
-                                    <th>Wallet</th>
-                                    <th>Variance</th>
-                                    <th>Contributions</th>
-                                    <th>Rewards</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {users.map((user) => (
-                                    <tr key={user.id}>
-                                        <td>
-                                            <Group>
+                <Tabs.Panel value="pay-rewards" style={{ display: 'flex', justifyContent: 'center' }}>
+                    <Card mt={20} mb={20} mr={20} shadow="sm" padding="lg" radius="md" withBorder style={{ width: 'min-content' }}>
+                        <Card.Section>
+                            <Center>
+                                <ThemeIcon
+                                  variant="gradient"
+                                  size={70}
+                                  aria-label="Gradient action icon"
+                                  gradient={{ from: 'blue', to: 'cyan', deg: 90 }}
+                                  mt={20}
+                                        >
+                                        <IconMoneybag size={60} />
+                                </ThemeIcon>
+                            </Center>
+                        </Card.Section>
+
+                        <Group justify="space-between" mt="md" mb="xs">
+                            <Text fw={500}>Calculate rewards</Text>
+                            <Badge color="pink">Flare data connector</Badge>
+                        </Group>
+
+                        <Text size="sm" c="dimmed" mb={20}>
+                            We use <b>Flare data connector (FDC)</b> to evaluate data quality of attirbutions and calculate rewards.
+                        </Text>
+
+                        <Button
+                          onClick={() => console.log("Rewards are being calculated")}
+                          style={{width: 'max-content'}}
+                            >
+                                Calculate rewards
+                                <IconMoneybag style={{ marginLeft: '8px' }} />
+                        </Button>
+                    </Card>
+
+                    <Card mt={20} mb={20} mr={20} shadow="sm" padding="lg" radius="md" withBorder style={{ width: 'min-content' }}>
+                        <Title order={3}>Rewards</Title>
+                        <p>We use <b>Flare data connector (FDC)</b> to bring the quality of data and number of contributions on <b>Songbird testnet coston.</b> Model trainer reward is 0.2 CFLR</p>
+                        <Center style={{flexDirection: 'column'}}>
+                            <Table style={{width:'max-content'}}>
+                                <Table.Thead>
+                                    <Table.Tr>
+                                        <Table.Th></Table.Th>
+                                        <Table.Th>Wallet</Table.Th>
+                                        <Table.Th>Data quality</Table.Th>
+                                        <Table.Th>Contributions</Table.Th>
+                                        <Table.Th>Rewards</Table.Th>
+                                    </Table.Tr>
+                                </Table.Thead>
+                                <Table.Tbody>
+                                    {users.map((user) => (
+                                        <Table.Tr key={user.id}>
+                                            <Table.Td>
+                                                <Badge style={{position: 'absolute', zIndex: 10}} mt={-5} ml={-15}>{user.id}</Badge>
                                                 <Avatar color="blue" radius="xl">
-                                                    <IconUser />
+                                                   <IconUser />
                                                 </Avatar>
-                                                <Text>{user.wallet}</Text>
-                                            </Group>
-                                        </td>
-                                        <td>
-                                            <span>{user.variance}</span>
-                                        </td>
-                                        <td>
-                                            <span>{user.contributions}</span>
-                                        </td>
-                                        <td>
-                                            <span>{user.finalReward}</span>
-                                            <Button>Claim reward</Button>
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </Table>
-                    </Center>
+                                            </Table.Td>
+                                            <Table.Td>
+                                                <Code>
+                                                    {user.wallet}
+                                                </Code>
+                                            </Table.Td>
+                                            <Table.Td>{user.variance}</Table.Td>
+                                            <Table.Td>{user.contributions}</Table.Td>
+                                            <Table.Td>{user.finalReward} CFLR</Table.Td>
+                                        </Table.Tr>
+                                    ))}
+                                </Table.Tbody>
+                            </Table>
+
+                            <Button>
+                                Claim rewards
+                                <IconMoneybag style={{ marginLeft: '8px' }} />
+                            </Button>
+                        </Center>
+                    </Card>
                 </Tabs.Panel>
             </Tabs>
         </Center>
