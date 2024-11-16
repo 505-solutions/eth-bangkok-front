@@ -9,4 +9,12 @@ export default withBundleAnalyzer({
   eslint: {
     ignoreDuringBuilds: true,
   },
+  async rewrites() {
+    return [
+      {
+        source: '/api/verifyPol', // API path in your Next.js app
+        destination: 'http://0.0.0.0:5000/verifyPol', // Target backend server
+      },
+    ];
+  },
 });

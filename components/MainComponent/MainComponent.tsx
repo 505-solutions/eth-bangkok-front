@@ -1,7 +1,7 @@
 import { Button, Center, Code, Card, Text, JsonInput, Group, FileButton, Space } from '@mantine/core';
 // import { Prism } from '@mantine/prism';
 import { Tabs, rem } from '@mantine/core';
-import { IconBoxModel, IconChartArrows, IconLoadBalancer, IconBrandGoogle, IconShield, IconMap, IconMoneybag, IconDatabase, IconBrandPython } from '@tabler/icons-react';
+import { IconBoxModel, IconChartArrows, IconLoadBalancer, IconBrandGoogle, IconShield, IconMap, IconMoneybag, IconDatabase, IconBrandPython, IconGitCompare } from '@tabler/icons-react';
 import {
     DynamicContextProvider,
     DynamicWidget,
@@ -9,10 +9,27 @@ import {
   } from '@dynamic-labs/sdk-react-core';
 import { showNotification } from '@mantine/notifications';
 import { useRef, useState } from 'react';
+import axios from 'axios';
 
 export function MainComponent() {
     const iconStyle = { width: rem(24), height: rem(24) };
     const { primaryWallet } = useDynamicContext();
+
+    const [quote, setQuote] = useState(null);
+
+    const [file1, setFile1] = useState<File | null>(null);
+    const [file2, setFile2] = useState<File | null>(null);
+    const resetRef1 = useRef<() => void>(null);
+    const resetRef2 = useRef<() => void>(null);
+
+    const clearFile1 = () => {
+        setFile1(null);
+        resetRef1.current?.();
+    };
+    const clearFile2 = () => {
+        setFile2(null);
+        resetRef2.current?.();
+    };
 
     const handleDownload = async (fileUrl, fileName) => {
         try {
@@ -33,22 +50,17 @@ export function MainComponent() {
         } catch (error) {
           console.error('Error downloading the file:', error);
         }
-      };
+    };
 
-        const [file1, setFile1] = useState<File | null>(null);
-        const [file2, setFile2] = useState<File | null>(null);
-        const resetRef1 = useRef<() => void>(null);
-        const resetRef2 = useRef<() => void>(null);
-
-        const clearFile1 = () => {
-            setFile1(null);
-            resetRef1.current?.();
-        };
-        const clearFile2 = () => {
-            setFile2(null);
-            resetRef2.current?.();
-        };
-
+    const handleTeeVerification = async () => {
+        try {
+            const response = await axios.get('/api/verifyPol');
+            console.log('Verification result:', response.data.tdxQuote.quote);
+            setQuote(response.data.tdxQuote.quote);
+        } catch (error) {
+          console.error('Error verifying in TEE', error);
+        }
+    }
 
     return (
         <div>
@@ -64,8 +76,11 @@ export function MainComponent() {
                     <Tabs.Tab value="train-model" leftSection={<IconChartArrows style={iconStyle} />}>
                     Train model
                     </Tabs.Tab>
-                    <Tabs.Tab value="verify-training" leftSection={<IconMoneybag style={iconStyle} />}>
+                    <Tabs.Tab value="verify-training" leftSection={<IconGitCompare style={iconStyle} />}>
                     Verify training
+                    </Tabs.Tab>
+                    <Tabs.Tab value="pay-rewards" leftSection={<IconMoneybag style={iconStyle} />}>
+                    Pay rewards
                     </Tabs.Tab>
                 </Tabs.List>
 
@@ -129,9 +144,19 @@ export function MainComponent() {
                     </Group>
                     <Space h={20} />
 
-                    <Button>
+                    <Button
+                      onClick={handleTeeVerification}
+                    >
                         Verify proof of learning in TEE
                     </Button>
+
+                    { quote &&
+                    <p>Tdx quote: {quote.slice(0, 20)}...{quote.slice(-5)}</p>
+                    }
+                </Tabs.Panel>
+
+                <Tabs.Panel value="pay-rewards">
+                    Pay rewards
                 </Tabs.Panel>
             </Tabs>
         </Center>
