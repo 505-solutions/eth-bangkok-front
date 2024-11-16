@@ -10,6 +10,7 @@ import {
   ListItem,
   ThemeIcon,
   Text,
+  Card
 } from '@mantine/core';
 import { IconFile } from '@tabler/icons-react';
 
@@ -17,7 +18,11 @@ function FilecoinUpload({setFiles, close}) {
   const [value, setValue] = useState<File[]>([]);
   const [currentUpload, setCurrentUpload] = useState<number>(0);
   const [progress, setProgress] = useState<number>(0);
-  const [output, setOutput] = useState<any>([]);
+  const [output, setOutput] = useState<any>([{
+    Hash: '123',
+    Name: 'filename.txt',
+    Size: 88000,
+  }]);
   const [priceEstimate, setPriceEstimate] = useState<BigInt>(BigInt(0));
   const [apiToken, setApiToken] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
@@ -69,9 +74,10 @@ function FilecoinUpload({setFiles, close}) {
       // Third parameter is for multiple files, if multiple files are to be uploaded at once make it true
       // Fourth parameter is the deal parameters, default null
       //authToken = "4414e711.bdd4d86b458941e98806bcfbb1f7d396";
-      const output = await lighthouse.upload(file, authToken, true, undefined, progressCallback);
-      setOutput(output);
+      const output = await lighthouse.upload(file, authToken, null, progressCallback);
+      setOutput([output.data]);
       console.log('File Status:', output);
+
       setFiles(output.data);
       close();
       setProgress(100);
@@ -105,7 +111,7 @@ function FilecoinUpload({setFiles, close}) {
         />
         {!done ? <Progress transitionDuration={500} value={progress} /> : ''}
 
-        <Button loading={loading} onClick={() => uploadFile(value)} disabled={progress !== 0}>
+        <Button variant='gradient' gradient={{ from: 'pink', to: 'orange', deg: 90 }} loading={loading} onClick={() => uploadFile(value)} disabled={progress !== 0}>
           {!done ? 'Upload' : 'Upload complete'}
         </Button>
         {
@@ -115,10 +121,10 @@ function FilecoinUpload({setFiles, close}) {
             <small>Estimated cost: ~{Number(priceEstimate) / 1000} USDC</small>
           </Text>
         }
-        {output && output.data && (
+        {output && (
           <List spacing="xs" size="sm" center icon={<IconFile />}>
-            {output.data.map((file: any, index: number) => (
-              <ListItem key={index}>
+            {output.map((file: any, index: number) => (
+              <ListItem key={index} style={{background: 'white', borderRadius: 15, padding: 15}}>
                 <Code>
                   <b>{file.Name || '< Parent folder >'}</b>
                 </Code>{' '}

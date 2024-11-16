@@ -39,6 +39,23 @@ export default function App({ Component, pageProps }: AppProps) {
       rpcUrls: ['https://coston2-api.flare.network/ext/C/rpc'],
       vanityName: 'Flare Testnet Coston2',
     },
+    {
+      blockExplorerUrls: ['https://etherscan.io/'],
+      chainId: 314159,
+      chainName: 'Filecoin - Calibration testnet',
+      iconUrls: ['https://app.dynamic.xyz/assets/networks/eth.svg'],
+      name: 'Filecoin - Calibration testnet',
+      nativeCurrency: {
+        decimals: 18,
+        name: 'Test FIL',
+        symbol: 'tFIL',
+      },
+      networkId: 314159,
+  
+      rpcUrls: ['https://rpc.ankr.com/filecoin_testnet'],
+      vanityName: 'Filecoin - Calibration teostnet',
+    },
+  
   ];
 
   const vantaRef = useRef(null);
