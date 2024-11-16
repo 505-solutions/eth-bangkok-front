@@ -2,16 +2,15 @@ import '@mantine/core/styles.css';
 
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
-import { MantineProvider } from '@mantine/core';
+import { EthereumWalletConnectors } from '@dynamic-labs/ethereum';
+import { EthersExtension } from '@dynamic-labs/ethers-v5';
 import {
   DynamicContextProvider,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   DynamicWidget,
 } from '@dynamic-labs/sdk-react-core';
-import { EthereumWalletConnectors } from '@dynamic-labs/ethereum';
-import { EthersExtension } from '@dynamic-labs/ethers-v5';
+import { MantineProvider } from '@mantine/core';
 import { theme } from '../theme';
-
 
 export default function App({ Component, pageProps }: AppProps) {
   const cssOverrides = `
@@ -23,11 +22,11 @@ export default function App({ Component, pageProps }: AppProps) {
   // Setting up list of evmNetworks
   const evmNetworks = [
     {
-      blockExplorerUrls: ['https://coston-explorer.flare.network'],
-      chainId: 16,
-      chainName: 'Coston',
+      blockExplorerUrls: ['https://coston2-explorer.flare.network'],
+      chainId: 114,
+      chainName: 'Flare Testnet Coston2',
       iconUrls: ['https://docs.flare.network/assets/images/dev/reference/logo-FLR.png'],
-      name: 'Coston',
+      name: 'Flare Testnet Coston2',
       nativeCurrency: {
         decimals: 18,
         name: 'Coston',
@@ -36,14 +35,14 @@ export default function App({ Component, pageProps }: AppProps) {
       },
       networkId: 1,
 
-      rpcUrls: ['https://coston-api.flare.network/ext/bc/C/rpc'],
-      vanityName: 'Coston',
+      rpcUrls: ['https://coston2-api.flare.network/ext/C/rpc'],
+      vanityName: 'Flare Testnet Coston2',
     },
   ];
-  
+
   return (
-      <DynamicContextProvider
-        settings={{
+    <DynamicContextProvider
+      settings={{
         environmentId: 'a2dea8be-028b-4848-a65f-a57fe56a8770',
         walletConnectors: [EthereumWalletConnectors],
         walletConnectorExtensions: [EthersExtension],
@@ -62,6 +61,6 @@ export default function App({ Component, pageProps }: AppProps) {
         </Head>
         <Component {...pageProps} />
       </MantineProvider>
-      </DynamicContextProvider>
+    </DynamicContextProvider>
   );
 }
