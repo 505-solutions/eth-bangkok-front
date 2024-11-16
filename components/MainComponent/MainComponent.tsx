@@ -47,7 +47,7 @@ import {
 } from '@mantine/core';
 import { showNotification } from '@mantine/notifications';
 import flareValidationAbi from '@/contracts/flareValidation.json';
-import FilecoinUpload from '../Filecoin/filecoinUpload';
+import FilecoinUpload from '../Filecoin/FilecoinUpload';
 
 export function MainComponent() {
   const iconStyle = { width: rem(24), height: rem(24) };
