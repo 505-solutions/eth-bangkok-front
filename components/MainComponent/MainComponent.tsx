@@ -47,6 +47,7 @@ import {
 } from '@mantine/core';
 import { showNotification } from '@mantine/notifications';
 import flareValidationAbi from '@/contracts/flareValidation.json';
+import FilecoinUpload from '../Filecoin/filecoinUpload';
 
 export function MainComponent() {
   const iconStyle = { width: rem(24), height: rem(24) };
@@ -275,7 +276,9 @@ export function MainComponent() {
             </Tabs.Tab>
           </Tabs.List>
 
-          <Tabs.Panel value="collect-dataset">Gallery tab content</Tabs.Panel>
+          <Tabs.Panel value="collect-dataset">
+            <FilecoinUpload />
+          </Tabs.Panel>
 
           <Tabs.Panel value="train-model" style={{ display: 'flex', justifyContent: 'center' }}>
             <Card

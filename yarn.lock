@@ -4686,7 +4686,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@lighthouse-web3/sdk@npm:^0.3.3":
+"@lighthouse-web3/sdk@npm:^0.3.7":
   version: 0.3.7
   resolution: "@lighthouse-web3/sdk@npm:0.3.7"
   dependencies:
@@ -7121,7 +7121,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tabler/icons-react@npm:^3.9.0":
+"@tabler/icons-react@npm:^3.22.0":
   version: 3.22.0
   resolution: "@tabler/icons-react@npm:3.22.0"
   dependencies:
@@ -16517,7 +16517,7 @@ __metadata:
     "@dynamic-labs/ethers-v5": "npm:^2.2.10"
     "@dynamic-labs/sdk-react-core": "npm:^2.2.10"
     "@ianvs/prettier-plugin-sort-imports": "npm:^4.3.1"
-    "@lighthouse-web3/sdk": "npm:^0.3.3"
+    "@lighthouse-web3/sdk": "npm:^0.3.7"
     "@mantine/carousel": "npm:^7.11.1"
     "@mantine/core": "npm:7.11.1"
     "@mantine/form": "npm:^7.11.1"
@@ -16531,7 +16531,7 @@ __metadata:
     "@next/eslint-plugin-next": "npm:^14.2.4"
     "@storybook/nextjs": "npm:^8.1.10"
     "@storybook/react": "npm:^8.1.10"
-    "@tabler/icons-react": "npm:^3.9.0"
+    "@tabler/icons-react": "npm:^3.22.0"
     "@tanstack/react-query": "npm:^5.50.1"
     "@testing-library/dom": "npm:^10.1.0"
     "@testing-library/jest-dom": "npm:^6.4.6"
