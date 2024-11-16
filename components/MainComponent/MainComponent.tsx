@@ -293,7 +293,7 @@ scipy==1.10.0`}
                         </Button>
 
                         <p style={{marginBottom: 0}}>Tdx quote:</p>
-                        <Code block mt={0} style={{maxWidth: '100%'}}>
+                        <Code block mt={0} style={{maxWidth: '100%'}} mb={20}>
                         { quote ?
                         <span>{quote.slice(0, 30)}...{quote.slice(-10)}</span>
                         :
