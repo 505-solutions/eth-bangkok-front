@@ -9,7 +9,13 @@ import {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   DynamicWidget,
 } from '@dynamic-labs/sdk-react-core';
+
 import { MantineProvider } from '@mantine/core';
+
+import { EthereumWalletConnectors } from '@dynamic-labs/ethereum';
+import { EthersExtension } from '@dynamic-labs/ethers-v5';
+import { useEffect, useRef } from 'react';
+
 import { theme } from '../theme';
 
 export default function App({ Component, pageProps }: AppProps) {
@@ -40,6 +46,39 @@ export default function App({ Component, pageProps }: AppProps) {
     },
   ];
 
+
+  const vantaRef = useRef(null);
+
+  useEffect(() => {
+    let vantaEffect: any;
+    const loadVanta = () => {
+      if (vantaRef.current && !vantaEffect) {
+        vantaEffect = window.VANTA.WAVES({
+          el: vantaRef.current,
+          mouseControls: false,
+          touchControls: false,
+          gyroControls: false,
+          scale: 1.00,
+          scaleMobile: 1.00,
+          color: 0xca97c1,
+          shininess: 20.00,
+          waveHeight: 12.00,
+          waveSpeed: 1.15,
+          zoom: 1.40,
+        });
+      }
+    };
+
+    // Load Vanta after the scripts are loaded
+    if (typeof window !== 'undefined' && window.VANTA) {
+      loadVanta();
+    }
+
+    return () => {
+      if (vantaEffect) vantaEffect.destroy();
+    };
+  }, []);
+
   return (
     <DynamicContextProvider
       settings={{
@@ -59,6 +98,16 @@ export default function App({ Component, pageProps }: AppProps) {
           />
           <link rel="shortcut icon" href="/favicon.svg" />
         </Head>
+        <div
+          ref={vantaRef}
+          style={{
+                  position: 'fixed',
+                  width: '100%',
+                  height: '100vh',
+                  zIndex: -1,
+                }}
+              >
+        </div>
         <Component {...pageProps} />
       </MantineProvider>
     </DynamicContextProvider>
