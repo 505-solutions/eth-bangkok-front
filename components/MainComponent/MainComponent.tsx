@@ -10,6 +10,7 @@ import {
   IconBrandPython,
   IconCancel,
   IconChartArrows,
+  IconCheck,
   IconContract,
   IconCrossFilled,
   IconDatabase,
@@ -45,7 +46,7 @@ import {
   ThemeIcon,
   Title,
 } from '@mantine/core';
-import { showNotification } from '@mantine/notifications';
+import { Notifications, notifications } from '@mantine/notifications';
 import flareValidationAbi from '@/contracts/flareValidation.json';
 
 export function MainComponent() {
@@ -125,6 +126,14 @@ export function MainComponent() {
       const response = await axios.get('/api/verifyPol');
       console.log('Verification result:', response.data.tdxQuote.quote);
       setQuote(response.data.tdxQuote.quote);
+
+      notifications.show({
+        title: 'Success',
+        message: 'Proof verification was successful',
+        color: 'green',
+        bg: 'lightgrey',
+        autoClose: 5000,
+      });
     } catch (error) {
       console.error('Error verifying in TEE', error);
     }
@@ -163,7 +172,20 @@ export function MainComponent() {
 
       // Wait for transaction to be mined
       const receipt = await tx.wait();
-      console.log('Transaction confirmed:', receipt.transactionHash);
+      console.log('Transaction confirmed123:', receipt.transactionHash);
+
+      const explorerLink = `https://coston2-explorer.flare.network/tx/${receipt.transactionHash}`;
+      notifications.show({
+        title: 'Success',
+        message: (
+          <a target="_blank" href={explorerLink} rel="noreferrer">
+            View on Blockscout
+          </a>
+        ),
+        color: 'green',
+        bg: 'lightgrey',
+        autoClose: 5000,
+      });
 
       //   const response = await axios.get('/api/verifyPol');
       //   console.log('Verification result:', response.data.tdxQuote.quote);
@@ -225,6 +247,19 @@ export function MainComponent() {
       console.log('Transaction confirmed:', receipt.transactionHash);
 
       await getActiveBalances();
+
+      const explorerLink = `https://coston2-explorer.flare.network/tx/${receipt.transactionHash}`;
+      notifications.show({
+        title: 'Success',
+        message: (
+          <a target="_blank" href={explorerLink} rel="noreferrer">
+            View on Blockscout
+          </a>
+        ),
+        color: 'green',
+        bg: 'lightgrey',
+        autoClose: 5000,
+      });
     } catch (error) {
       console.error('Error verifying in TEE', error);
     } finally {
@@ -253,10 +288,70 @@ export function MainComponent() {
     setAddressPayouts(payouts);
   };
 
+  // * ================================================================
+  const [isLoadingPayment, setIsLoadingPayment] = useState(false);
+  const claimAllRewards = async () => {
+    try {
+      setIsLoadingPayment(true);
+
+      const signer = await primaryWallet?.connector.ethers?.getSigner();
+      if (!signer) {
+        alert('Please connect your wallet');
+        return null;
+      }
+      const contract = new ethers.Contract(flareValidationAddress, flareValidationAbi, signer);
+
+      let txHash;
+
+      const futures = [];
+      for (let i = 0; i < users.length; i += 1) {
+        const executePayout = async (wallet) => {
+          await new Promise((resolve) => {
+            setTimeout(resolve, 100 * i);
+          });
+          const tx = await contract.payout(wallet, {
+            gasLimit: 2000000,
+          });
+          const result = await tx.wait();
+          txHash = result.transactionHash;
+          console.log('Transaction confirmed:', result.transactionHash);
+        };
+
+        futures.push(executePayout(users[i].wallet), {
+          gasLimit: 2000000,
+        });
+      }
+
+      const results = await Promise.all(futures);
+
+      const explorerLink = `https://coston2-explorer.flare.network/tx/${txHash}`;
+      notifications.show({
+        title: 'Success',
+        message: (
+          <a target="_blank" href={explorerLink} rel="noreferrer">
+            View on Blockscout
+          </a>
+        ),
+        color: 'green',
+        bg: 'lightgrey',
+        autoClose: 5000,
+      });
+
+      setAddressPayouts(null);
+
+      console.log('results:', results);
+    } catch (error) {
+      console.error('Error verifying in TEE', error);
+    } finally {
+      setIsLoadingPayment(false);
+    }
+  };
+
   return (
     <div>
       <Center>
         <DynamicWidget />
+        <Notifications />
       </Center>
       <Center>
         <Tabs defaultValue="collect-dataset" style={{ width: '80%' }}>
@@ -661,8 +756,13 @@ scipy==1.10.0`}
                   </Table.Tbody>
                 </Table>
 
-                <Button variant="gradient" gradient={{ from: 'pink', to: 'orange', deg: 90 }}>
-                  Claim my rewards
+                <Button
+                  loading={isLoadingPayment}
+                  onClick={claimAllRewards}
+                  variant="gradient"
+                  gradient={{ from: 'pink', to: 'orange', deg: 90 }}
+                >
+                  Distribute rewards
                   <IconMoneybag style={{ marginLeft: '8px' }} />
                 </Button>
               </Center>
