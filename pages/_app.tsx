@@ -1,4 +1,5 @@
 import '@mantine/core/styles.css';
+import '@mantine/notifications/styles.css';
 
 import { useEffect, useRef } from 'react';
 import type { AppProps } from 'next/app';
