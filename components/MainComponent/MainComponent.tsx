@@ -1,7 +1,7 @@
 import { Button, Center, Code, Card, Text, JsonInput, Group, FileButton, Space, Table, Avatar, ThemeIcon, Badge, Image, Title } from '@mantine/core';
 // import { Prism } from '@mantine/prism';
 import { Tabs, rem } from '@mantine/core';
-import { IconBoxModel, IconChartArrows, IconLoadBalancer, IconBrandGoogle, IconShield, IconMap, IconMoneybag, IconDatabase, IconBrandPython, IconGitCompare, IconUser, IconCrossFilled, IconCancel, IconFileTypeDoc, IconSignLeftFilled, IconContract } from '@tabler/icons-react';
+import { IconBoxModel, IconChartArrows, IconLoadBalancer, IconBrandGoogle, IconShield, IconMap, IconMoneybag, IconDatabase, IconBrandPython, IconGitCompare, IconUser, IconCrossFilled, IconCancel, IconFileTypeDoc, IconSignLeftFilled, IconContract, IconSignature } from '@tabler/icons-react';
 import {
     DynamicContextProvider,
     DynamicWidget,
@@ -96,7 +96,7 @@ export function MainComponent() {
                     Gallery tab content
                 </Tabs.Panel>
 
-                <Tabs.Panel value="train-model" style={{display: 'flex'}}>
+                <Tabs.Panel value="train-model" style={{display: 'flex', justifyContent: 'center'}}>
 
                     <Card mt={20} mb={20} shadow="sm" padding="lg" radius="md" withBorder style={{ width: 'min-content' }}>
                         <Card.Section>
@@ -190,7 +190,7 @@ scipy==1.10.0`}
                     </Card>
                 </Tabs.Panel>
 
-                <Tabs.Panel value="verify-training" style={{display: 'flex'}}>
+                <Tabs.Panel value="verify-training" style={{display: 'flex', justifyContent: 'center'}}>
                     <Card mt={20} mb={20} mr={20} shadow="sm" padding="lg" radius="md" withBorder style={{ width: 'min-content' }}>
                         <Card.Section>
                             <Center>
@@ -259,19 +259,21 @@ scipy==1.10.0`}
                         </Text>
                         <Group>
                             <Group justify="center">
-                                <FileButton resetRef={resetRef1} onChange={setFile1}>
-                                {(props) => <Button {...props}>
-                                    Upload proof of learning
-                                    <IconContract style={{ marginLeft: '8px' }} />
-                                </Button>}
+                                <FileButton resetRef={resetRef2} onChange={setFile2}>
+                                {(props) =>
+                                    <Button {...props}>
+                                        Upload proof of learning
+                                        <IconContract style={{ marginLeft: '8px' }} />
+                                    </Button>
+                                }
                                 </FileButton>
                             </Group>
-                            {file1 && (
+                            {file2 && (
                                 <Text size="sm" ta="center" mt="sm">
-                                Picked file: <Code>{file1.name}</Code>
+                                Picked file: <Code>{file2.name}</Code>
                                 </Text>
                             )}
-                            <Button disabled={!file1} color="red" onClick={clearFile1}>
+                            <Button disabled={!file2} color="red" onClick={clearFile2}>
                                 Reset
                                 <IconCancel style={{ marginLeft: '8px' }} />
                             </Button>
@@ -284,13 +286,21 @@ scipy==1.10.0`}
 
                         <Button
                         onClick={handleTeeVerification}
+                        style={{width: 'max-content'}}
                         >
                             Verify proof of learning in TEE
+                            <IconContract style={{ marginRight: '8px' }} />
                         </Button>
 
-                        { quote &&
-                        <p>Tdx quote: {quote.slice(0, 20)}...{quote.slice(-5)}</p>
+                        <p style={{marginBottom: 0}}>Tdx quote:</p>
+                        <Code block mt={0} style={{maxWidth: '100%'}}>
+                        { quote ?
+                        <span>{quote.slice(0, 30)}...{quote.slice(-10)}</span>
+                        :
+                        <span>Tdx-quote</span>
                         }
+                        </Code>
+                        
                         <Button>Aggregate TDX quote</Button>
                     </Card>
 
