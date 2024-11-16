@@ -1,7 +1,7 @@
-import { Button, Center, Code, Card, Text, JsonInput, Group, FileButton, Space } from '@mantine/core';
+import { Button, Center, Code, Card, Text, JsonInput, Group, FileButton, Space, Table, Avatar } from '@mantine/core';
 // import { Prism } from '@mantine/prism';
 import { Tabs, rem } from '@mantine/core';
-import { IconBoxModel, IconChartArrows, IconLoadBalancer, IconBrandGoogle, IconShield, IconMap, IconMoneybag, IconDatabase, IconBrandPython, IconGitCompare } from '@tabler/icons-react';
+import { IconBoxModel, IconChartArrows, IconLoadBalancer, IconBrandGoogle, IconShield, IconMap, IconMoneybag, IconDatabase, IconBrandPython, IconGitCompare, IconUser } from '@tabler/icons-react';
 import {
     DynamicContextProvider,
     DynamicWidget,
@@ -10,6 +10,7 @@ import {
 import { showNotification } from '@mantine/notifications';
 import { useRef, useState } from 'react';
 import axios from 'axios';
+
 
 export function MainComponent() {
     const iconStyle = { width: rem(24), height: rem(24) };
@@ -30,6 +31,12 @@ export function MainComponent() {
         setFile2(null);
         resetRef2.current?.();
     };
+
+    const users = [
+        { id: 1, wallet: '0x123...abc', variance: '0.02', contributions: 12, finalReward: 0.1 },
+        { id: 2, wallet: '0x456...def', variance: '0.02', contributions: 12, finalReward: 0.1 },
+        { id: 3, wallet: '0x789...ghi', variance: '0.02', contributions: 12, finalReward: 0.1 },
+    ];
 
     const handleDownload = async (fileUrl, fileName) => {
         try {
@@ -80,7 +87,7 @@ export function MainComponent() {
                     Verify training
                     </Tabs.Tab>
                     <Tabs.Tab value="pay-rewards" leftSection={<IconMoneybag style={iconStyle} />}>
-                    Pay rewards
+                    Distribute rewards
                     </Tabs.Tab>
                 </Tabs.List>
 
@@ -153,10 +160,48 @@ export function MainComponent() {
                     { quote &&
                     <p>Tdx quote: {quote.slice(0, 20)}...{quote.slice(-5)}</p>
                     }
+                    <Button>Aggregate TDX quote</Button>
+
                 </Tabs.Panel>
 
                 <Tabs.Panel value="pay-rewards">
-                    Pay rewards
+                    <Button>Calculate dataset contribution awards</Button>
+                    <Center>
+                        <Table>
+                            <thead>
+                                <tr>
+                                    <th>Wallet</th>
+                                    <th>Variance</th>
+                                    <th>Contributions</th>
+                                    <th>Rewards</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {users.map((user) => (
+                                    <tr key={user.id}>
+                                        <td>
+                                            <Group>
+                                                <Avatar color="blue" radius="xl">
+                                                    <IconUser />
+                                                </Avatar>
+                                                <Text>{user.wallet}</Text>
+                                            </Group>
+                                        </td>
+                                        <td>
+                                            <span>{user.variance}</span>
+                                        </td>
+                                        <td>
+                                            <span>{user.contributions}</span>
+                                        </td>
+                                        <td>
+                                            <span>{user.finalReward}</span>
+                                            <Button>Claim reward</Button>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </Table>
+                    </Center>
                 </Tabs.Panel>
             </Tabs>
         </Center>
