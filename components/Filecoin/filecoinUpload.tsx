@@ -119,7 +119,7 @@ function FilecoinUpload() {
             {output.map((file: any, index: number) => (
               <ListItem key={index} style={{background: 'white', borderRadius: 15, padding: 15}}>
                 <Code>
-                  <b>{file.Name || '< Parent folder >'}</b>
+                  <b>{file.Name || '< Index folder >'}</b>
                 </Code>{' '}
                 -{' '}
                 <Code>
