@@ -26,9 +26,6 @@ import axios from 'axios';
 import { ethers } from 'ethers';
 // import { Prism } from '@mantine/prism';
 
-import { Tabs, rem } from '@mantine/core';
-import { IconBoxModel, IconChartArrows, IconLoadBalancer, IconBrandGoogle, IconShield, IconMap, IconMoneybag, IconDatabase, IconBrandPython, IconGitCompare, IconUser, IconCrossFilled, IconCancel, IconFileTypeDoc, IconSignLeftFilled, IconContract, IconSignature } from '@tabler/icons-react';
-
 import {
   Avatar,
   Badge,
@@ -71,10 +68,34 @@ export function MainComponent() {
     resetRef2.current?.();
   };
 
+  // const addresses = [
+  //   '0x8A448f9d67F70a3a9C78A3ef0BA204B3c43521a9',
+  //   '0x5a7338D940330109A2722140B7790fC4e286E54C',
+  //   '0x9c4007243CfbF63aFAD9Daf33D331f5a14c81267',
+  // ];
+
   const users = [
-    { id: 1, wallet: '0x123...abc', variance: '0.02', contributions: 12, finalReward: 0.1 },
-    { id: 2, wallet: '0x456...def', variance: '0.02', contributions: 12, finalReward: 0.1 },
-    { id: 3, wallet: '0x789...ghi', variance: '0.02', contributions: 12, finalReward: 0.1 },
+    {
+      id: 1,
+      wallet: '0x8A448f9d67F70a3a9C78A3ef0BA204B3c43521a9',
+      variance: '0.0217',
+      contributions: 1877,
+      finalReward: 0.1,
+    },
+    {
+      id: 2,
+      wallet: '0x5a7338D940330109A2722140B7790fC4e286E54C',
+      variance: '0.0193',
+      contributions: 1580,
+      finalReward: 0.1,
+    },
+    {
+      id: 3,
+      wallet: '0x9c4007243CfbF63aFAD9Daf33D331f5a14c81267',
+      variance: '0.0201',
+      contributions: 2573,
+      finalReward: 0.1,
+    },
   ];
 
   const handleDownload = async (fileUrl, fileName) => {
@@ -186,7 +207,6 @@ export function MainComponent() {
             'Content-Type': 'application/json',
           },
         }
-
       );
       if (response.data.status !== 'VALID') {
         alert('failed to get response from the verifier server');
@@ -222,16 +242,10 @@ export function MainComponent() {
     }
     const contract = new ethers.Contract(flareValidationAddress, flareValidationAbi, signer);
 
-    const addresses = [
-      '0x8A448f9d67F70a3a9C78A3ef0BA204B3c43521a9',
-      '0x5a7338D940330109A2722140B7790fC4e286E54C',
-      '0x9c4007243CfbF63aFAD9Daf33D331f5a14c81267',
-    ];
-
     const payouts = {};
-    for (const address of addresses) {
-      const pendingPayout = await contract.pendingPayouts(address);
-      payouts[address] = pendingPayout;
+    for (const user of users) {
+      const pendingPayout = await contract.pendingPayouts(user.wallet);
+      payouts[user.wallet] = pendingPayout;
     }
 
     console.log('addressPayouts:', payouts);
@@ -239,348 +253,423 @@ export function MainComponent() {
     setAddressPayouts(payouts);
   };
 
-    };
+  return (
+    <div>
+      <Center>
+        <DynamicWidget />
+      </Center>
+      <Center>
+        <Tabs defaultValue="collect-dataset" style={{ width: '80%' }}>
+          <Tabs.List style={{ width: '100%', margin: 'auto', justifyContent: 'center' }}>
+            <Tabs.Tab value="collect-dataset" leftSection={<IconBoxModel style={iconStyle} />}>
+              <b>Collect dataset</b>
+            </Tabs.Tab>
+            <Tabs.Tab value="train-model" leftSection={<IconChartArrows style={iconStyle} />}>
+              <b>Train model</b>
+            </Tabs.Tab>
+            <Tabs.Tab value="verify-training" leftSection={<IconGitCompare style={iconStyle} />}>
+              <b>Verify training</b>
+            </Tabs.Tab>
+            <Tabs.Tab value="pay-rewards" leftSection={<IconMoneybag style={iconStyle} />}>
+              <b>Distribute rewards</b>
+            </Tabs.Tab>
+          </Tabs.List>
 
-    return (
-        <div>
-        <Center>
-            <DynamicWidget />
-        </Center>
-        <Center>
-            <Tabs defaultValue="collect-dataset" style={{ width: '80%' }}>
-                <Tabs.List style={{ width: '100%', margin: 'auto', justifyContent: 'center' }}>
-                    <Tabs.Tab value="collect-dataset" leftSection={<IconBoxModel style={iconStyle} />}>
-                    <b>Collect dataset</b>
-                    </Tabs.Tab>
-                    <Tabs.Tab value="train-model" leftSection={<IconChartArrows style={iconStyle} />}>
-                    <b>Train model</b>
-                    </Tabs.Tab>
-                    <Tabs.Tab value="verify-training" leftSection={<IconGitCompare style={iconStyle} />}>
-                    <b>Verify training</b>
-                    </Tabs.Tab>
-                    <Tabs.Tab value="pay-rewards" leftSection={<IconMoneybag style={iconStyle} />}>
-                    <b>Distribute rewards</b>
-                    </Tabs.Tab>
-                </Tabs.List>
+          <Tabs.Panel value="collect-dataset">Gallery tab content</Tabs.Panel>
 
-                <Tabs.Panel value="collect-dataset">
-                    Gallery tab content
-                </Tabs.Panel>
+          <Tabs.Panel value="train-model" style={{ display: 'flex', justifyContent: 'center' }}>
+            <Card
+              mt={20}
+              mb={20}
+              shadow="sm"
+              padding="lg"
+              radius="md"
+              withBorder
+              style={{ width: 'min-content' }}
+            >
+              <Card.Section>
+                <Center>
+                  <ThemeIcon
+                    variant="gradient"
+                    size={70}
+                    aria-label="Gradient action icon"
+                    gradient={{ from: 'pink', to: 'orange', deg: 90 }}
+                    mt={20}
+                  >
+                    <IconBrandPython size={60} />
+                  </ThemeIcon>
+                </Center>
+              </Card.Section>
 
-                <Tabs.Panel value="train-model" style={{ display: 'flex', justifyContent: 'center' }}>
+              <Group justify="space-between" mt="md" mb="xs">
+                <Text fw={500}>Download model</Text>
+                <Badge color="pink">Python</Badge>
+              </Group>
 
-                    <Card mt={20} mb={20} shadow="sm" padding="lg" radius="md" withBorder style={{ width: 'min-content' }}>
-                        <Card.Section>
-                            <Center>
-                                <ThemeIcon
-                                  variant="gradient"
-                                  size={70}
-                                  aria-label="Gradient action icon"
-                                  gradient={{ from: 'pink', to: 'orange', deg: 90 }}
-                                  mt={20}
-                                        >
-                                        <IconBrandPython size={60} />
-                                </ThemeIcon>
-                            </Center>
-                        </Card.Section>
+              <Text size="sm" c="dimmed" mb={20}>
+                Download and run the model on your own machine, the training will generate Proof of
+                Learning.
+              </Text>
 
-                        <Group justify="space-between" mt="md" mb="xs">
-                            <Text fw={500}>Download model</Text>
-                            <Badge color="pink">Python</Badge>
-                        </Group>
+              <Code>model.py</Code>
 
-                        <Text size="sm" c="dimmed" mb={20}>
-                            Download and run the model on your own machine, the training will generate Proof of Learning.
-                        </Text>
+              <Button
+                variant="gradient"
+                gradient={{ from: 'pink', to: 'orange', deg: 90 }}
+                onClick={() =>
+                  handleDownload(
+                    'https://raw.githubusercontent.com/505-solutions/phala-tee-python/refs/heads/main/model.py',
+                    'model.py'
+                  )
+                }
+              >
+                Download model
+                <IconBrandPython style={{ marginLeft: '8px' }} />
+              </Button>
+            </Card>
 
-                        <Code>model.py</Code>
+            <Card
+              ml={20}
+              mt={20}
+              mb={20}
+              shadow="sm"
+              padding="lg"
+              radius="md"
+              withBorder
+              style={{ width: 'min-content' }}
+            >
+              <Card.Section>
+                <Center>
+                  <ThemeIcon
+                    variant="gradient"
+                    size={70}
+                    aria-label="Gradient action icon"
+                    gradient={{ from: 'pink', to: 'orange', deg: 90 }}
+                    mt={20}
+                  >
+                    <IconDatabase size={60} />
+                  </ThemeIcon>
+                </Center>
+              </Card.Section>
 
-                        <Button
-                          variant="gradient"
-                          gradient={{ from: 'pink', to: 'orange', deg: 90 }}
-                          onClick={() => handleDownload(
-                                'https://raw.githubusercontent.com/505-solutions/phala-tee-python/refs/heads/main/model.py',
-                                'model.py'
-                            )}
-                            >
-                                Download model
-                                <IconBrandPython style={{ marginLeft: '8px' }} />
-                        </Button>
-                    </Card>
+              <Group justify="space-between" mt="md" mb="xs">
+                <Text fw={500}>Download dataset</Text>
+                <Badge color="pink">Composite dataset</Badge>
+              </Group>
 
-                    <Card ml={20} mt={20} mb={20} shadow="sm" padding="lg" radius="md" withBorder style={{ width: 'min-content' }}>
-                        <Card.Section>
-                            <Center>
-                                <ThemeIcon
-                                  variant="gradient"
-                                  size={70}
-                                  aria-label="Gradient action icon"
-                                  gradient={{ from: 'pink', to: 'orange', deg: 90 }}
-                                  mt={20}
-                                        >
-                                        <IconDatabase size={60} />
-                                </ThemeIcon>
-                            </Center>
-                        </Card.Section>
+              <Text size="sm" c="dimmed" mb={20}>
+                Download the composite dataset made up of users contributions.
+              </Text>
 
-                        <Group justify="space-between" mt="md" mb="xs">
-                            <Text fw={500}>Download dataset</Text>
-                            <Badge color="pink">Composite dataset</Badge>
-                        </Group>
+              <Code>cifar10-composite.tar.gz</Code>
 
-                        <Text size="sm" c="dimmed" mb={20}>
-                            Download the composite dataset made up of users contributions.
-                        </Text>
+              <Button
+                variant="gradient"
+                gradient={{ from: 'pink', to: 'orange', deg: 90 }}
+                onClick={() =>
+                  handleDownload(
+                    'https://raw.githubusercontent.com/505-solutions/phala-tee-python/refs/heads/main/model.py',
+                    'model.py'
+                  )
+                }
+                mb={20}
+              >
+                Download dataset
+                <IconDatabase style={{ marginLeft: '8px' }} />
+              </Button>
+            </Card>
 
-                        <Code>cifar10-composite.tar.gz</Code>
-
-                        <Button
-                          variant="gradient"
-                          gradient={{ from: 'pink', to: 'orange', deg: 90 }}
-                          onClick={() => handleDownload(
-                                'https://raw.githubusercontent.com/505-solutions/phala-tee-python/refs/heads/main/model.py',
-                                'model.py'
-                            )}
-                          mb={20}
-                            >
-                                Download dataset
-                                <IconDatabase style={{ marginLeft: '8px' }} />
-                        </Button>
-                    </Card>
-
-                    <Card mt={20} ml={20} mb={20} mr={20} shadow="sm" padding="lg" radius="md" withBorder>
-                        <Title order={3}>Train the model</Title>
-                        <Text>
-                            First prepare <Code style={{ display: 'contents' }}>python3.10</Code> environment with the following libraries:
-                        </Text>
-                        <Code block>
-                            {`numpy==1.26.4
+            <Card mt={20} ml={20} mb={20} mr={20} shadow="sm" padding="lg" radius="md" withBorder>
+              <Title order={3}>Train the model</Title>
+              <Text>
+                First prepare <Code style={{ display: 'contents' }}>python3.10</Code> environment
+                with the following libraries:
+              </Text>
+              <Code block>
+                {`numpy==1.26.4
 torch==1.11.0
 scipy==1.10.0`}
-                        </Code>
-                        <Text mt={30}>
-                            Train the model by running the following command in the shell:
-                        </Text>
-                        <Code>python model.py --save-freq=1000</Code>
-                    </Card>
-                </Tabs.Panel>
+              </Code>
+              <Text mt={30}>Train the model by running the following command in the shell:</Text>
+              <Code>python model.py --save-freq=1000</Code>
+            </Card>
+          </Tabs.Panel>
 
-                <Tabs.Panel value="verify-training" style={{ display: 'flex', justifyContent: 'center' }}>
-                    <Card mt={20} mb={20} mr={20} shadow="sm" padding="lg" radius="md" withBorder style={{ width: 'min-content' }}>
-                        <Card.Section>
-                            <Center>
-                                <ThemeIcon
-                                  variant="gradient"
-                                  size={70}
-                                  aria-label="Gradient action icon"
-                                  gradient={{ from: 'pink', to: 'orange', deg: 90 }}
-                                  mt={20}
-                                        >
-                                        <IconBrandPython size={60} />
-                                </ThemeIcon>
-                            </Center>
-                        </Card.Section>
+          <Tabs.Panel value="verify-training" style={{ display: 'flex', justifyContent: 'center' }}>
+            <Card
+              mt={20}
+              mb={20}
+              mr={20}
+              shadow="sm"
+              padding="lg"
+              radius="md"
+              withBorder
+              style={{ width: 'min-content' }}
+            >
+              <Card.Section>
+                <Center>
+                  <ThemeIcon
+                    variant="gradient"
+                    size={70}
+                    aria-label="Gradient action icon"
+                    gradient={{ from: 'pink', to: 'orange', deg: 90 }}
+                    mt={20}
+                  >
+                    <IconBrandPython size={60} />
+                  </ThemeIcon>
+                </Center>
+              </Card.Section>
 
-                        <Group justify="space-between" mt="md" mb="xs">
-                            <Text fw={500}>Upload trained model</Text>
-                            <Badge color="pink">Python</Badge>
-                        </Group>
+              <Group justify="space-between" mt="md" mb="xs">
+                <Text fw={500}>Upload trained model</Text>
+                <Badge color="pink">Python</Badge>
+              </Group>
 
-                        <Text size="sm" c="dimmed" mb={20}>
-                            Once the model is done training, upload it here to verify the training in TEE.
-                        </Text>
-                        <Group>
-                            <Group justify="center">
-                                <FileButton resetRef={resetRef1} onChange={setFile1}>
-                                {(props) => 
-                                    <Button
-                                        {...props}
-                                        variant="gradient"
-                                        gradient={{ from: 'pink', to: 'orange', deg: 90 }}
-                                    >
-                                        Upload trained model
-                                        <IconBrandPython style={{ marginLeft: '8px' }} />
-                                    </Button>
-                                }
-                                </FileButton>
-                            </Group>
-                            {file1 && (
-                                <Text size="sm" ta="center" mt="sm">
-                                Picked file: <Code>{file1.name}</Code>
-                                </Text>
-                            )}
-                            <Button disabled={!file1} color="red" onClick={clearFile1}>
-                                Reset
-                                <IconCancel style={{ marginLeft: '8px' }} />
-                            </Button>
-                        </Group>
-                    </Card>
-                    <Card mt={20} mb={20} mr={20} shadow="sm" padding="lg" radius="md" withBorder style={{ width: 'min-content' }}>
-                        <Card.Section>
-                            <Center>
-                                <ThemeIcon
-                                  variant="gradient"
-                                  size={70}
-                                  aria-label="Gradient action icon"
-                                  gradient={{ from: 'pink', to: 'orange', deg: 90 }}
-                                  mt={20}
-                                        >
-                                        <IconContract size={60} />
-                                </ThemeIcon>
-                            </Center>
-                        </Card.Section>
+              <Text size="sm" c="dimmed" mb={20}>
+                Once the model is done training, upload it here to verify the training in TEE.
+              </Text>
+              <Group>
+                <Group justify="center">
+                  <FileButton resetRef={resetRef1} onChange={setFile1}>
+                    {(props) => (
+                      <Button
+                        {...props}
+                        variant="gradient"
+                        gradient={{ from: 'pink', to: 'orange', deg: 90 }}
+                      >
+                        Upload trained model
+                        <IconBrandPython style={{ marginLeft: '8px' }} />
+                      </Button>
+                    )}
+                  </FileButton>
+                </Group>
+                {file1 && (
+                  <Text size="sm" ta="center" mt="sm">
+                    Picked file: <Code>{file1.name}</Code>
+                  </Text>
+                )}
+                <Button disabled={!file1} color="red" onClick={clearFile1}>
+                  Reset
+                  <IconCancel style={{ marginLeft: '8px' }} />
+                </Button>
+              </Group>
+            </Card>
+            <Card
+              mt={20}
+              mb={20}
+              mr={20}
+              shadow="sm"
+              padding="lg"
+              radius="md"
+              withBorder
+              style={{ width: 'min-content' }}
+            >
+              <Card.Section>
+                <Center>
+                  <ThemeIcon
+                    variant="gradient"
+                    size={70}
+                    aria-label="Gradient action icon"
+                    gradient={{ from: 'pink', to: 'orange', deg: 90 }}
+                    mt={20}
+                  >
+                    <IconContract size={60} />
+                  </ThemeIcon>
+                </Center>
+              </Card.Section>
 
-                        <Group justify="space-between" mt="md" mb="xs">
-                            <Text fw={500}>Upload proof of learning (PoL)</Text>
-                            <Badge color="pink">Proof of learning</Badge>
-                        </Group>
+              <Group justify="space-between" mt="md" mb="xs">
+                <Text fw={500}>Upload proof of learning (PoL)</Text>
+                <Badge color="pink">Proof of learning</Badge>
+              </Group>
 
-                        <Text size="sm" c="dimmed" mb={20}>
-                            <b>The proof of learning (PoL)</b> proves that the model was trained correctly on the dataset.
-                        </Text>
-                        <Group>
-                            <Group justify="center">
-                                <FileButton resetRef={resetRef2} onChange={setFile2}>
-                                {(props) =>
-                                    <Button
-                                        {...props}
-                                        variant="gradient"
-                                        gradient={{ from: 'pink', to: 'orange', deg: 90 }}
-                                    >
-                                        Upload proof of learning
-                                        <IconContract style={{ marginLeft: '8px' }} />
-                                    </Button>
-                                }
-                                </FileButton>
-                            </Group>
-                            {file2 && (
-                                <Text size="sm" ta="center" mt="sm">
-                                Picked file: <Code>{file2.name}</Code>
-                                </Text>
-                            )}
-                            <Button disabled={!file2} color="red" onClick={clearFile2}>
-                                Reset
-                                <IconCancel style={{ marginLeft: '8px' }} />
-                            </Button>
-                        </Group>
-                    </Card>
+              <Text size="sm" c="dimmed" mb={20}>
+                <b>The proof of learning (PoL)</b> proves that the model was trained correctly on
+                the dataset.
+              </Text>
+              <Group>
+                <Group justify="center">
+                  <FileButton resetRef={resetRef2} onChange={setFile2}>
+                    {(props) => (
+                      <Button
+                        {...props}
+                        variant="gradient"
+                        gradient={{ from: 'pink', to: 'orange', deg: 90 }}
+                      >
+                        Upload proof of learning
+                        <IconContract style={{ marginLeft: '8px' }} />
+                      </Button>
+                    )}
+                  </FileButton>
+                </Group>
+                {file2 && (
+                  <Text size="sm" ta="center" mt="sm">
+                    Picked file: <Code>{file2.name}</Code>
+                  </Text>
+                )}
+                <Button disabled={!file2} color="red" onClick={clearFile2}>
+                  Reset
+                  <IconCancel style={{ marginLeft: '8px' }} />
+                </Button>
+              </Group>
+            </Card>
 
-                    <Card mt={20} mb={20} shadow="sm" padding="lg" radius="md" withBorder style={{ width: 'max-content' }}>
-                        <Title order={3}>Verify proof of learning</Title>
-                        <p>We verify proof of learning inside Phala networks TEE</p>
+            <Card
+              mt={20}
+              mb={20}
+              shadow="sm"
+              padding="lg"
+              radius="md"
+              withBorder
+              style={{ width: 'max-content' }}
+            >
+              <Title order={3}>Verify proof of learning</Title>
+              <p>We verify proof of learning inside Phala networks TEE</p>
 
-                        <Button
-                          onClick={handleTeeVerification}
-                          style={{ width: 'max-content' }}
-                          variant="gradient"
-                          gradient={{ from: 'pink', to: 'orange', deg: 90 }}
-                        >
-                            Verify proof of learning in TEE
-                            <IconContract style={{ marginRight: '8px' }} />
-                        </Button>
+              <Button
+                onClick={handleTeeVerification}
+                style={{ width: 'max-content' }}
+                variant="gradient"
+                gradient={{ from: 'pink', to: 'orange', deg: 90 }}
+              >
+                Verify proof of learning in TEE
+                <IconContract style={{ marginRight: '8px' }} />
+              </Button>
 
-                        <p style={{ marginBottom: 0 }}>Tdx quote:</p>
-                        <Code block mt={0} style={{ maxWidth: '100%' }} mb={20}>
-                        { quote ?
-                        <span>{quote.slice(0, 30)}...{quote.slice(-10)}</span>
-                        :
-                        <span>Tdx-quote</span>
-                        }
-                        </Code>
+              <p style={{ marginBottom: 0 }}>Tdx quote:</p>
+              <Code block mt={0} style={{ maxWidth: '100%' }} mb={20}>
+                {quote ? (
+                  <span>
+                    {quote.slice(0, 30)}...{quote.slice(-10)}
+                  </span>
+                ) : (
+                  <span>Tdx-quote</span>
+                )}
+              </Code>
 
-                        <Button
-                            variant="gradient"
-                            gradient={{ from: 'pink', to: 'orange', deg: 90 }}
-                        >Aggregate TDX quote</Button>
-                    </Card>
+              <Button
+                loading={isLoadingTdxQuote}
+                onClick={aggregateTDXQuote}
+                variant="gradient"
+                gradient={{ from: 'pink', to: 'orange', deg: 90 }}
+              >
+                Aggregate TDX quote
+              </Button>
+            </Card>
+          </Tabs.Panel>
 
-                </Tabs.Panel>
+          <Tabs.Panel value="pay-rewards" style={{ display: 'flex', justifyContent: 'center' }}>
+            <Card
+              mt={20}
+              mb={20}
+              mr={20}
+              shadow="sm"
+              padding="lg"
+              radius="md"
+              withBorder
+              style={{ width: 'min-content' }}
+            >
+              <Card.Section>
+                <Center>
+                  <ThemeIcon
+                    variant="gradient"
+                    size={70}
+                    aria-label="Gradient action icon"
+                    gradient={{ from: 'pink', to: 'orange', deg: 90 }}
+                    mt={20}
+                  >
+                    <IconMoneybag size={60} />
+                  </ThemeIcon>
+                </Center>
+              </Card.Section>
 
-                <Tabs.Panel value="pay-rewards" style={{ display: 'flex', justifyContent: 'center' }}>
-                    <Card mt={20} mb={20} mr={20} shadow="sm" padding="lg" radius="md" withBorder style={{ width: 'min-content' }}>
-                        <Card.Section>
-                            <Center>
-                                <ThemeIcon
-                                  variant="gradient"
-                                  size={70}
-                                  aria-label="Gradient action icon"
-                                  gradient={{ from: 'pink', to: 'orange', deg: 90 }}
-                                  mt={20}
-                                        >
-                                        <IconMoneybag size={60} />
-                                </ThemeIcon>
-                            </Center>
-                        </Card.Section>
+              <Group justify="space-between" mt="md" mb="xs">
+                <Text fw={500}>Calculate rewards</Text>
+                <Badge color="pink">Flare data connector</Badge>
+              </Group>
 
-                        <Group justify="space-between" mt="md" mb="xs">
-                            <Text fw={500}>Calculate rewards</Text>
-                            <Badge color="pink">Flare data connector</Badge>
-                        </Group>
+              <Text size="sm" c="dimmed" mb={20}>
+                We use <b>Flare data connector (FDC)</b> to evaluate data quality of attirbutions
+                and calculate rewards.
+              </Text>
 
-                        <Text size="sm" c="dimmed" mb={20}>
-                            We use <b>Flare data connector (FDC)</b> to evaluate data quality of attirbutions and calculate rewards.
-                        </Text>
+              <Button
+                loading={isLoadingfetchDBInfo}
+                onClick={getFlareDBInfo}
+                style={{ width: 'max-content' }}
+                variant="gradient"
+                gradient={{ from: 'pink', to: 'orange', deg: 90 }}
+              >
+                Calculate rewards
+                <IconMoneybag style={{ marginLeft: '8px' }} />
+              </Button>
+            </Card>
 
-                        <Button
-                          onClick={() => console.log('Rewards are being calculated')}
-                          style={{ width: 'max-content' }}
-                          variant="gradient"
-                          gradient={{ from: 'pink', to: 'orange', deg: 90 }}
-                            >
-                                Calculate rewards
-                                <IconMoneybag style={{ marginLeft: '8px' }} />
-                        </Button>
-                    </Card>
+            <Card
+              mt={20}
+              mb={20}
+              mr={20}
+              shadow="sm"
+              padding="lg"
+              radius="md"
+              withBorder
+              style={{ width: 'min-content' }}
+            >
+              <Title order={3}>Rewards</Title>
+              <p>
+                We use <b>Flare data connector (FDC)</b> to bring the quality of data and number of
+                contributions on <b>Songbird testnet coston.</b> Model trainer reward is 0.2 CFLR
+              </p>
+              <Center style={{ flexDirection: 'column' }}>
+                <Table style={{ width: 'max-content' }}>
+                  <Table.Thead>
+                    <Table.Tr>
+                      <Table.Th></Table.Th>
+                      <Table.Th>Wallet</Table.Th>
+                      <Table.Th>Data quality</Table.Th>
+                      <Table.Th>Contributions</Table.Th>
+                      <Table.Th>Rewards</Table.Th>
+                    </Table.Tr>
+                  </Table.Thead>
+                  <Table.Tbody>
+                    {addressPayouts
+                      ? users.map((user) => (
+                          <Table.Tr key={user.wallet}>
+                            <Table.Td>
+                              <Badge style={{ position: 'absolute', zIndex: 10 }} mt={-5} ml={-15}>
+                                {user.id}
+                              </Badge>
+                              <Avatar color="pink" radius="xl">
+                                <IconUser />
+                              </Avatar>
+                            </Table.Td>
+                            <Table.Td>
+                              <Code>{user.wallet}</Code>
+                            </Table.Td>
+                            <Table.Td>{user.variance}</Table.Td>
+                            <Table.Td>{user.contributions} </Table.Td>
+                            <Table.Td>
+                              <span>
+                                {`${(Number(addressPayouts[user.wallet]) / 10 ** 8).toFixed(2)}$`} (
+                                {`${(Number(addressPayouts[user.wallet]) / 0.02244 / 10 ** 8).toFixed(2)}FLR`}
+                                )
+                              </span>
+                            </Table.Td>
+                          </Table.Tr>
+                        ))
+                      : null}
+                  </Table.Tbody>
+                </Table>
 
-                    <Card mt={20} mb={20} mr={20} shadow="sm" padding="lg" radius="md" withBorder style={{ width: 'min-content' }}>
-                        <Title order={3}>Rewards</Title>
-                        <p>We use <b>Flare data connector (FDC)</b> to bring the quality of data and number of contributions on <b>Songbird testnet coston.</b> Model trainer reward is 0.2 CFLR</p>
-                        <Center style={{ flexDirection: 'column' }}>
-                            <Table style={{ width: 'max-content' }}>
-                                <Table.Thead>
-                                    <Table.Tr>
-                                        <Table.Th></Table.Th>
-                                        <Table.Th>Wallet</Table.Th>
-                                        <Table.Th>Data quality</Table.Th>
-                                        <Table.Th>Contributions</Table.Th>
-                                        <Table.Th>Rewards</Table.Th>
-                                    </Table.Tr>
-                                </Table.Thead>
-                                <Table.Tbody>
-                                    {users.map((user) => (
-                                        <Table.Tr key={user.id}>
-                                            <Table.Td>
-                                                <Badge style={{ position: 'absolute', zIndex: 10 }} mt={-5} ml={-15}>{user.id}</Badge>
-                                                <Avatar color="pink" radius="xl">
-                                                   <IconUser />
-                                                </Avatar>
-                                            </Table.Td>
-                                            <Table.Td>
-                                                <Code>
-                                                    {user.wallet}
-                                                </Code>
-                                            </Table.Td>
-                                            <Table.Td>{user.variance}</Table.Td>
-                                            <Table.Td>{user.contributions}</Table.Td>
-                                            <Table.Td>{user.finalReward} CFLR</Table.Td>
-                                        </Table.Tr>
-                                    ))}
-                                </Table.Tbody>
-                            </Table>
-
-                            <Button
-                                variant="gradient"
-                                gradient={{ from: 'pink', to: 'orange', deg: 90 }}
-                            >
-                                Claim my rewards
-                                <IconMoneybag style={{ marginLeft: '8px' }} />
-                            </Button>
-                        </Center>
-                    </Card>
-                </Tabs.Panel>
-            </Tabs>
-        </Center>
-        </div>
-    );
-
+                <Button variant="gradient" gradient={{ from: 'pink', to: 'orange', deg: 90 }}>
+                  Claim my rewards
+                  <IconMoneybag style={{ marginLeft: '8px' }} />
+                </Button>
+              </Center>
+            </Card>
+          </Tabs.Panel>
+        </Tabs>
+      </Center>
+    </div>
+  );
 }

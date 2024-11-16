@@ -1,5 +1,6 @@
 import '@mantine/core/styles.css';
 
+import { useEffect, useRef } from 'react';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import { EthereumWalletConnectors } from '@dynamic-labs/ethereum';
@@ -9,13 +10,7 @@ import {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   DynamicWidget,
 } from '@dynamic-labs/sdk-react-core';
-
 import { MantineProvider } from '@mantine/core';
-
-import { EthereumWalletConnectors } from '@dynamic-labs/ethereum';
-import { EthersExtension } from '@dynamic-labs/ethers-v5';
-import { useEffect, useRef } from 'react';
-
 import { theme } from '../theme';
 
 export default function App({ Component, pageProps }: AppProps) {
@@ -46,7 +41,6 @@ export default function App({ Component, pageProps }: AppProps) {
     },
   ];
 
-
   const vantaRef = useRef(null);
 
   useEffect(() => {
@@ -58,13 +52,13 @@ export default function App({ Component, pageProps }: AppProps) {
           mouseControls: false,
           touchControls: false,
           gyroControls: false,
-          scale: 1.00,
-          scaleMobile: 1.00,
+          scale: 1.0,
+          scaleMobile: 1.0,
           color: 0xca97c1,
-          shininess: 20.00,
-          waveHeight: 12.00,
+          shininess: 20.0,
+          waveHeight: 12.0,
           waveSpeed: 1.15,
-          zoom: 1.40,
+          zoom: 1.4,
         });
       }
     };
@@ -101,13 +95,12 @@ export default function App({ Component, pageProps }: AppProps) {
         <div
           ref={vantaRef}
           style={{
-                  position: 'fixed',
-                  width: '100%',
-                  height: '100vh',
-                  zIndex: -1,
-                }}
-              >
-        </div>
+            position: 'fixed',
+            width: '100%',
+            height: '100vh',
+            zIndex: -1,
+          }}
+        ></div>
         <Component {...pageProps} />
       </MantineProvider>
     </DynamicContextProvider>
