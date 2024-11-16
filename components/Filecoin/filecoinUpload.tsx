@@ -14,15 +14,11 @@ import {
 } from '@mantine/core';
 import { IconFile } from '@tabler/icons-react';
 
-function FilecoinUpload({setFiles, close}) {
+function FilecoinUpload() {
   const [value, setValue] = useState<File[]>([]);
   const [currentUpload, setCurrentUpload] = useState<number>(0);
   const [progress, setProgress] = useState<number>(0);
-  const [output, setOutput] = useState<any>([{
-    Hash: '123',
-    Name: 'filename.txt',
-    Size: 88000,
-  }]);
+  const [output, setOutput] = useState<any>([]);
   const [priceEstimate, setPriceEstimate] = useState<BigInt>(BigInt(0));
   const [apiToken, setApiToken] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
@@ -77,9 +73,6 @@ function FilecoinUpload({setFiles, close}) {
       const output = await lighthouse.upload(file, authToken, null, progressCallback);
       setOutput([output.data]);
       console.log('File Status:', output);
-
-      setFiles(output.data);
-      close();
       setProgress(100);
       setStepIndex(4);
       setLoading(false);
@@ -101,7 +94,7 @@ function FilecoinUpload({setFiles, close}) {
   };
   const done = progress === 100;
   return (
-    <div className="App" style={{ maxWidth: 600, margin: 'auto', paddingTop: 50 }}>
+    <div className="App">
       <Stack>
         <FileInput
           label="Upload files"

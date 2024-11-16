@@ -6,8 +6,8 @@ import {
 } from '@dynamic-labs/sdk-react-core';
 import {
   IconBoxModel,
-  IconBrandGoogle,
   IconBrandPython,
+  IconFileAi,
   IconCancel,
   IconChartArrows,
   IconCheck,
@@ -22,6 +22,7 @@ import {
   IconShield,
   IconSignLeftFilled,
   IconUser,
+  IconFile,
 } from '@tabler/icons-react';
 import axios from 'axios';
 import { ethers } from 'ethers';
@@ -371,8 +372,38 @@ export function MainComponent() {
             </Tabs.Tab>
           </Tabs.List>
 
-          <Tabs.Panel value="collect-dataset">
-            <FilecoinUpload />
+          <Tabs.Panel value="collect-dataset" >
+          <Card
+              mt={20}
+              mb={20}
+              shadow="sm"
+              padding="lg"
+              radius="md"
+              withBorder
+              style={{ display: 'flex', justifyContent: 'center', maxWidth: 800, margin: 'auto' }}
+            >
+              <Card.Section>
+                <Center>
+                  <ThemeIcon
+                    variant="gradient"
+                    size={70}
+                    aria-label="Gradient action icon"
+                    gradient={{ from: 'pink', to: 'orange', deg: 90 }}
+                    mt={20}
+                  >
+                    <IconFileAi size={60} />
+                  </ThemeIcon>
+                </Center>
+              </Card.Section>
+              <Group style={{flexDirection: 'column'}} justify="space-between" mt="md" mb="xs">
+                <Text fw={500}>Traning data repository</Text>
+                <Badge color="pink">Filecoin / IPFS</Badge>
+              </Group>
+
+              <FilecoinUpload />
+
+
+            </Card>
           </Tabs.Panel>
 
           <Tabs.Panel value="train-model" style={{ display: 'flex', justifyContent: 'center' }}>
