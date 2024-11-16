@@ -1,4 +1,4 @@
-import { Button, Center, Code, Card, Text, JsonInput, Group, FileButton } from '@mantine/core';
+import { Button, Center, Code, Card, Text, JsonInput, Group, FileButton, Space } from '@mantine/core';
 // import { Prism } from '@mantine/prism';
 import { Tabs, rem } from '@mantine/core';
 import { IconBoxModel, IconChartArrows, IconLoadBalancer, IconBrandGoogle, IconShield, IconMap, IconMoneybag, IconDatabase, IconBrandPython } from '@tabler/icons-react';
@@ -35,13 +35,20 @@ export function MainComponent() {
         }
       };
 
-        const [file, setFile] = useState<File | null>(null);
-        const resetRef = useRef<() => void>(null);
+        const [file1, setFile1] = useState<File | null>(null);
+        const [file2, setFile2] = useState<File | null>(null);
+        const resetRef1 = useRef<() => void>(null);
+        const resetRef2 = useRef<() => void>(null);
 
-        const clearFile = () => {
-            setFile(null);
-            resetRef.current?.();
+        const clearFile1 = () => {
+            setFile1(null);
+            resetRef1.current?.();
         };
+        const clearFile2 = () => {
+            setFile2(null);
+            resetRef2.current?.();
+        };
+
 
     return (
         <div>
@@ -90,22 +97,41 @@ export function MainComponent() {
 
                 <Tabs.Panel value="verify-training">
                     <Center><p>Upload final model and proof</p></Center>
-                    <>
-                    <Group justify="center">
-                        <FileButton resetRef={resetRef} onChange={setFile} accept="image/png,image/jpeg">
-                        {(props) => <Button {...props}>Upload image</Button>}
-                        </FileButton>
-                        <Button disabled={!file} color="red" onClick={clearFile}>
-                        Reset
-                        </Button>
+                    <Group>
+                        <Group justify="center">
+                            <FileButton resetRef={resetRef1} onChange={setFile1} accept="image/png,image/jpeg">
+                            {(props) => <Button {...props}>Upload trained model</Button>}
+                            </FileButton>
+                            <Button disabled={!file1} color="red" onClick={clearFile1}>
+                            Reset
+                            </Button>
+                        </Group>
+                        {file1 && (
+                            <Text size="sm" ta="center" mt="sm">
+                            Picked file: {file1.name}
+                            </Text>
+                        )}
                     </Group>
+                    <Group>
+                        <Group justify="center">
+                            <FileButton resetRef={resetRef2} onChange={setFile2} accept="image/png,image/jpeg">
+                            {(props) => <Button {...props}>Upload proof of learning</Button>}
+                            </FileButton>
+                            <Button disabled={!file2} color="red" onClick={clearFile2}>
+                            Reset
+                            </Button>
+                        </Group>
+                        {file2 && (
+                            <Text size="sm" ta="center" mt="sm">
+                            Picked file: {file2.name}
+                            </Text>
+                        )}
+                    </Group>
+                    <Space h={20} />
 
-                    {file && (
-                        <Text size="sm" ta="center" mt="sm">
-                        Picked file: {file.name}
-                        </Text>
-                    )}
-                    </>
+                    <Button>
+                        Verify proof of learning in TEE
+                    </Button>
                 </Tabs.Panel>
             </Tabs>
         </Center>
