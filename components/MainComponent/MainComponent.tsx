@@ -96,7 +96,7 @@ export function MainComponent() {
                     Gallery tab content
                 </Tabs.Panel>
 
-                <Tabs.Panel value="train-model" style={{display: 'flex', justifyContent: 'center'}}>
+                <Tabs.Panel value="train-model" style={{ display: 'flex', justifyContent: 'center' }}>
 
                     <Card mt={20} mb={20} shadow="sm" padding="lg" radius="md" withBorder style={{ width: 'min-content' }}>
                         <Card.Section>
@@ -105,7 +105,7 @@ export function MainComponent() {
                                   variant="gradient"
                                   size={70}
                                   aria-label="Gradient action icon"
-                                  gradient={{ from: 'blue', to: 'cyan', deg: 90 }}
+                                  gradient={{ from: 'pink', to: 'orange', deg: 90 }}
                                   mt={20}
                                         >
                                         <IconBrandPython size={60} />
@@ -125,6 +125,8 @@ export function MainComponent() {
                         <Code>model.py</Code>
 
                         <Button
+                          variant="gradient"
+                          gradient={{ from: 'pink', to: 'orange', deg: 90 }}
                           onClick={() => handleDownload(
                                 'https://raw.githubusercontent.com/505-solutions/phala-tee-python/refs/heads/main/model.py',
                                 'model.py'
@@ -142,7 +144,7 @@ export function MainComponent() {
                                   variant="gradient"
                                   size={70}
                                   aria-label="Gradient action icon"
-                                  gradient={{ from: 'blue', to: 'cyan', deg: 90 }}
+                                  gradient={{ from: 'pink', to: 'orange', deg: 90 }}
                                   mt={20}
                                         >
                                         <IconDatabase size={60} />
@@ -162,11 +164,13 @@ export function MainComponent() {
                         <Code>cifar10-composite.tar.gz</Code>
 
                         <Button
+                          variant="gradient"
+                          gradient={{ from: 'pink', to: 'orange', deg: 90 }}
                           onClick={() => handleDownload(
                                 'https://raw.githubusercontent.com/505-solutions/phala-tee-python/refs/heads/main/model.py',
                                 'model.py'
                             )}
-                            mb={20}
+                          mb={20}
                             >
                                 Download dataset
                                 <IconDatabase style={{ marginLeft: '8px' }} />
@@ -176,7 +180,7 @@ export function MainComponent() {
                     <Card mt={20} ml={20} mb={20} mr={20} shadow="sm" padding="lg" radius="md" withBorder>
                         <Title order={3}>Train the model</Title>
                         <Text>
-                            First prepare <Code style={{display: 'contents'}}>python3.10</Code> environment with the following libraries:
+                            First prepare <Code style={{ display: 'contents' }}>python3.10</Code> environment with the following libraries:
                         </Text>
                         <Code block>
                             {`numpy==1.26.4
@@ -190,7 +194,7 @@ scipy==1.10.0`}
                     </Card>
                 </Tabs.Panel>
 
-                <Tabs.Panel value="verify-training" style={{display: 'flex', justifyContent: 'center'}}>
+                <Tabs.Panel value="verify-training" style={{ display: 'flex', justifyContent: 'center' }}>
                     <Card mt={20} mb={20} mr={20} shadow="sm" padding="lg" radius="md" withBorder style={{ width: 'min-content' }}>
                         <Card.Section>
                             <Center>
@@ -198,7 +202,7 @@ scipy==1.10.0`}
                                   variant="gradient"
                                   size={70}
                                   aria-label="Gradient action icon"
-                                  gradient={{ from: 'blue', to: 'cyan', deg: 90 }}
+                                  gradient={{ from: 'pink', to: 'orange', deg: 90 }}
                                   mt={20}
                                         >
                                         <IconBrandPython size={60} />
@@ -217,10 +221,16 @@ scipy==1.10.0`}
                         <Group>
                             <Group justify="center">
                                 <FileButton resetRef={resetRef1} onChange={setFile1}>
-                                {(props) => <Button {...props}>
-                                    Upload trained model
-                                    <IconBrandPython style={{ marginLeft: '8px' }} />
-                                </Button>}
+                                {(props) => 
+                                    <Button
+                                        {...props}
+                                        variant="gradient"
+                                        gradient={{ from: 'pink', to: 'orange', deg: 90 }}
+                                    >
+                                        Upload trained model
+                                        <IconBrandPython style={{ marginLeft: '8px' }} />
+                                    </Button>
+                                }
                                 </FileButton>
                             </Group>
                             {file1 && (
@@ -241,7 +251,7 @@ scipy==1.10.0`}
                                   variant="gradient"
                                   size={70}
                                   aria-label="Gradient action icon"
-                                  gradient={{ from: 'blue', to: 'cyan', deg: 90 }}
+                                  gradient={{ from: 'pink', to: 'orange', deg: 90 }}
                                   mt={20}
                                         >
                                         <IconContract size={60} />
@@ -261,7 +271,11 @@ scipy==1.10.0`}
                             <Group justify="center">
                                 <FileButton resetRef={resetRef2} onChange={setFile2}>
                                 {(props) =>
-                                    <Button {...props}>
+                                    <Button
+                                        {...props}
+                                        variant="gradient"
+                                        gradient={{ from: 'pink', to: 'orange', deg: 90 }}
+                                    >
                                         Upload proof of learning
                                         <IconContract style={{ marginLeft: '8px' }} />
                                     </Button>
@@ -280,28 +294,33 @@ scipy==1.10.0`}
                         </Group>
                     </Card>
 
-                    <Card mt={20} mb={20} shadow="sm" padding="lg" radius="md" withBorder style={{width: 'max-content'}}>
+                    <Card mt={20} mb={20} shadow="sm" padding="lg" radius="md" withBorder style={{ width: 'max-content' }}>
                         <Title order={3}>Verify proof of learning</Title>
                         <p>We verify proof of learning inside Phala networks TEE</p>
 
                         <Button
-                        onClick={handleTeeVerification}
-                        style={{width: 'max-content'}}
+                          onClick={handleTeeVerification}
+                          style={{ width: 'max-content' }}
+                          variant="gradient"
+                          gradient={{ from: 'pink', to: 'orange', deg: 90 }}
                         >
                             Verify proof of learning in TEE
                             <IconContract style={{ marginRight: '8px' }} />
                         </Button>
 
-                        <p style={{marginBottom: 0}}>Tdx quote:</p>
-                        <Code block mt={0} style={{maxWidth: '100%'}} mb={20}>
+                        <p style={{ marginBottom: 0 }}>Tdx quote:</p>
+                        <Code block mt={0} style={{ maxWidth: '100%' }} mb={20}>
                         { quote ?
                         <span>{quote.slice(0, 30)}...{quote.slice(-10)}</span>
                         :
                         <span>Tdx-quote</span>
                         }
                         </Code>
-                        
-                        <Button>Aggregate TDX quote</Button>
+
+                        <Button
+                            variant="gradient"
+                            gradient={{ from: 'pink', to: 'orange', deg: 90 }}
+                        >Aggregate TDX quote</Button>
                     </Card>
 
                 </Tabs.Panel>
@@ -314,7 +333,7 @@ scipy==1.10.0`}
                                   variant="gradient"
                                   size={70}
                                   aria-label="Gradient action icon"
-                                  gradient={{ from: 'blue', to: 'cyan', deg: 90 }}
+                                  gradient={{ from: 'pink', to: 'orange', deg: 90 }}
                                   mt={20}
                                         >
                                         <IconMoneybag size={60} />
@@ -332,8 +351,10 @@ scipy==1.10.0`}
                         </Text>
 
                         <Button
-                          onClick={() => console.log("Rewards are being calculated")}
-                          style={{width: 'max-content'}}
+                          onClick={() => console.log('Rewards are being calculated')}
+                          style={{ width: 'max-content' }}
+                          variant="gradient"
+                          gradient={{ from: 'pink', to: 'orange', deg: 90 }}
                             >
                                 Calculate rewards
                                 <IconMoneybag style={{ marginLeft: '8px' }} />
@@ -343,8 +364,8 @@ scipy==1.10.0`}
                     <Card mt={20} mb={20} mr={20} shadow="sm" padding="lg" radius="md" withBorder style={{ width: 'min-content' }}>
                         <Title order={3}>Rewards</Title>
                         <p>We use <b>Flare data connector (FDC)</b> to bring the quality of data and number of contributions on <b>Songbird testnet coston.</b> Model trainer reward is 0.2 CFLR</p>
-                        <Center style={{flexDirection: 'column'}}>
-                            <Table style={{width:'max-content'}}>
+                        <Center style={{ flexDirection: 'column' }}>
+                            <Table style={{ width: 'max-content' }}>
                                 <Table.Thead>
                                     <Table.Tr>
                                         <Table.Th></Table.Th>
@@ -358,8 +379,8 @@ scipy==1.10.0`}
                                     {users.map((user) => (
                                         <Table.Tr key={user.id}>
                                             <Table.Td>
-                                                <Badge style={{position: 'absolute', zIndex: 10}} mt={-5} ml={-15}>{user.id}</Badge>
-                                                <Avatar color="blue" radius="xl">
+                                                <Badge style={{ position: 'absolute', zIndex: 10 }} mt={-5} ml={-15}>{user.id}</Badge>
+                                                <Avatar color="pink" radius="xl">
                                                    <IconUser />
                                                 </Avatar>
                                             </Table.Td>
@@ -376,8 +397,11 @@ scipy==1.10.0`}
                                 </Table.Tbody>
                             </Table>
 
-                            <Button>
-                                Claim rewards
+                            <Button
+                                variant="gradient"
+                                gradient={{ from: 'pink', to: 'orange', deg: 90 }}
+                            >
+                                Claim my rewards
                                 <IconMoneybag style={{ marginLeft: '8px' }} />
                             </Button>
                         </Center>
