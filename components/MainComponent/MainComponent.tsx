@@ -79,16 +79,16 @@ export function MainComponent() {
             <Tabs defaultValue="collect-dataset" style={{ width: '80%' }}>
                 <Tabs.List style={{ width: '100%', margin: 'auto', justifyContent: 'center' }}>
                     <Tabs.Tab value="collect-dataset" leftSection={<IconBoxModel style={iconStyle} />}>
-                    Collect dataset
+                    <b>Collect dataset</b>
                     </Tabs.Tab>
                     <Tabs.Tab value="train-model" leftSection={<IconChartArrows style={iconStyle} />}>
-                    Train model
+                    <b>Train model</b>
                     </Tabs.Tab>
                     <Tabs.Tab value="verify-training" leftSection={<IconGitCompare style={iconStyle} />}>
-                    Verify training
+                    <b>Verify training</b>
                     </Tabs.Tab>
                     <Tabs.Tab value="pay-rewards" leftSection={<IconMoneybag style={iconStyle} />}>
-                    Distribute rewards
+                    <b>Distribute rewards</b>
                     </Tabs.Tab>
                 </Tabs.List>
 
