@@ -1,4 +1,5 @@
 import '@mantine/core/styles.css';
+import '@mantine/notifications/styles.css';
 
 import { useEffect, useRef } from 'react';
 import type { AppProps } from 'next/app';
@@ -102,7 +103,7 @@ export default function App({ Component, pageProps }: AppProps) {
     >
       <MantineProvider theme={theme}>
         <Head>
-          <title>Mantine Template</title>
+          <title>Heptagon AI</title>
           <meta
             name="viewport"
             content="minimum-scale=1, initial-scale=1, width=device-width, user-scalable=no"

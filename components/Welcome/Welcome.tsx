@@ -5,18 +5,12 @@ export function Welcome() {
   return (
     <>
       <Title className={classes.title} ta="center" pt={100}>
-        Welcome to{' '}
         <Text inherit variant="gradient" component="span" gradient={{ from: 'pink', to: 'orange' }}>
-          Mantine
+          HeptagonAI
         </Text>
       </Title>
       <Text ta="center" size="lg" maw={580} mx="auto" mt="xl">
-        This starter Next.js project includes a minimal setup for server side rendering, if you want
-        to learn more on Mantine + Next.js integration follow{' '}
-        <Anchor href="https://mantine.dev/guides/next/" size="lg">
-          this guide
-        </Anchor>
-        . To get started edit index.tsx file.
+        <Anchor href="https://github.com/cleverhans-lab/Proof-of-Learning" size="lg"><b>Proof of learning</b></Anchor> AI traing that uses <Anchor href="https://filecoin.io" size="lg"><b>Filecoin</b></Anchor> for dataset storage, <Anchor href="https://phala.network" size="lg"><b>Phala TEE</b></Anchor> for proof verification and <Anchor href="https://flare.network" size="lg"><b>Flare Network</b></Anchor> for data collection and price feeds. 
       </Text>
     </>
   );
