@@ -14,7 +14,7 @@ import {
 } from '@mantine/core';
 import { IconFile } from '@tabler/icons-react';
 
-function FilecoinUpload() {
+export function FilecoinUpload() {
   const [value, setValue] = useState<File[]>([]);
   const [currentUpload, setCurrentUpload] = useState<number>(0);
   const [progress, setProgress] = useState<number>(0);
@@ -141,4 +141,4 @@ function FilecoinUpload() {
   );
 }
 
-export default FilecoinUpload;
+// export default FilecoinUpload;
