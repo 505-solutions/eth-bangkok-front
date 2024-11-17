@@ -520,7 +520,7 @@ torch==1.11.0
 scipy==1.10.0`}
               </Code>
               <Text mt={30}>Train the model by running the following command in the shell:</Text>
-              <Code>python model.py --save-freq=1000</Code>
+              <Code>python train.py --save-freq=1000</Code>
             </Card>
           </Tabs.Panel>
 
